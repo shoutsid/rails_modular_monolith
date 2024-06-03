@@ -69,6 +69,7 @@ group :development do
   gem 'listen', '~> 3.3'
   gem 'letter_opener', '~> 1.4', '>= 1.4.1'
   gem 'mailcatcher'
+  gem 'make_menu', '~> 2.1.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

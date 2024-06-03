@@ -27,6 +27,19 @@ class CreateOllamaEvent < ActiveRecord::Migration[7.0]
       t.index [:ollama_message_id, :ollama_chunk_id], name: 'index_chunk_messages_on_message_id_and_chunk_id'
     end
 
+    reversible do |dir|
+      dir.up do
+        execute <<-SQL
+          ALTER TABLE ollama_chunks_messages REPLICA IDENTITY FULL;
+        SQL
+      end
+
+      dir.down do
+        execute <<-SQL
+          ALTER TABLE ollama_chunks_messages REPLICA IDENTITY DEFAULT;
+        SQL
+      end
+    end
 
     create_table :ollama_events do |t|
       t.json :data

@@ -188,6 +188,8 @@ GEM
       sinatra (~> 3.2)
       sqlite3 (~> 1.3)
       thin (~> 1.8)
+    make_menu (2.1.1)
+      tty-screen (~> 0.8.2)
     marcel (1.0.4)
     method_source (1.1.0)
     mini_mime (1.1.5)
@@ -356,6 +358,7 @@ GEM
     tiktoken_ruby (0.0.9-x86_64-linux)
     tilt (2.3.0)
     timeout (0.4.1)
+    tty-screen (0.8.2)
     typhoeus (1.4.1)
       ethon (>= 0.9.0)
     tzinfo (2.0.6)
@@ -401,6 +404,7 @@ DEPENDENCIES
   letter_opener (~> 1.4, >= 1.4.1)
   listen (~> 3.3)
   mailcatcher
+  make_menu (~> 2.1.0)
   neighbor
   ollama-ai (~> 1.2.1)
   packwerk (~> 2.2)
