@@ -12,7 +12,6 @@ module Ollama
       chunk = Chunk.find(chunk_id)
       embedding = client.embeddings({model: 'llama3', prompt: chunk.data})[0]
       chunk.update!(embedding: embedding["embedding"])
-      Chunk.without_embedding.pluck(:id).each { |chunk| self.class.perform_later(chunk) }
     end
   end
 end
