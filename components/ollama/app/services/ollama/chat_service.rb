@@ -15,10 +15,7 @@ module Ollama
       @conversation_id = @event_payload.dig('conversation_id') if !!@event_payload.dig('conversation_id')
       @_messages = @event_payload.dig('messages') if !!@event_payload.dig('messages')
       @model = !!@event_payload.dig('model') ? @event_payload.dig('model') : Ollama::Chat::DEFAULT_MODEL
-      @client = ::Ollama.new(
-        credentials: { address: 'http://ollama:11434' },
-        options: { server_sent_events: true }
-      )
+      @client = Langchain::LLM::Ollama.new(url: 'http://ollama:11434')
 
       memoization_and_validation
     end

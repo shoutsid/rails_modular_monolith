@@ -1,6 +1,10 @@
 require 'ollama-ai'
 
 module Ollama
+  class InvalidClient < StandardError
+    # Custom error class raised when the client is invalid
+  end
+
   class InvalidModelError < StandardError
     # Custom error class raised when models are invalid
   end
@@ -18,7 +22,7 @@ module Ollama
 
     # Initializes a new instance of the Chat class.
     #
-    # @param client [Ollama::Controllers::Client] the AI client to use for generating responses.
+    # @param client [Ollama::Controllers::Client | Langchain::LLM::Ollama] the AI client to use for generating responses.
     # @param messages [Array<Hash>] the messages in the conversation.
     # @param conversation [Ollama::Conversation] the conversation object associated with the chat.
     def initialize(client:, messages:, conversation:)
@@ -27,7 +31,25 @@ module Ollama
     end
 
     def event_callback
+      if ollama_controller_client?
+        ollama_controller_client_callback
+      elsif client.kind_of?(Langchain::LLM::Ollama)
+        langchain_event_callback
+      else
+        raise InvalidClient, 'the client provided is not of type Ollama::Controllers::Client or Langchain::LLM::Ollama'
+      end
+    end
+
+    def ollama_controller_client_callback
       lambda do |event, _raw|
+        create_event(**event)
+        raise InvalidRoleError, event.dig('error') if !!event.dig('error') && event.dig('error').include?('invalid role')
+      end
+    end
+
+    def langchain_event_callback
+      lambda do |langchain_event|
+        event = langchain_event.raw_response
         create_event(event)
         raise InvalidRoleError, event.dig('error') if !!event.dig('error') && event.dig('error').include?('invalid role')
       end
@@ -39,7 +61,12 @@ module Ollama
     # @param prompt [String] the prompt to generate a response for.
     def generate(model: DEFAULT_MODEL, prompt: 'hi! please send me a long message')
       before(content: prompt)
-      client.generate({model:, prompt:}, &event_callback)
+      args = {model:, prompt:}
+      if ollama_controller_client?
+        client.generate(args, &event_callback)
+      else
+        client.generate(**args, &event_callback)
+      end
       after
     rescue Ollama::Errors::RequestError => e
       if e.detailed_message.include?('status 404')
@@ -50,13 +77,22 @@ module Ollama
       end
     end
 
+    def ollama_controller_client?
+      client.kind_of?(Ollama::Controllers::Client)
+    end
+
     # Chats with the AI model using the given message.
     #
     # @param model [String] the AI model to use for generating the response.
     # @param message [String] the message to send to the AI model.
     def chat(model: DEFAULT_MODEL, message: 'hi! please send me a long message')
       before(content: message)
-      client.chat({model:, messages:}, &event_callback)
+      args = {model:, messages:}
+      if ollama_controller_client?
+        client.chat(args, &event_callback)
+      else
+        client.chat(**args, &event_callback)
+      end
       after
     rescue Ollama::Errors::RequestError => e
       if e.detailed_message.include?('status 404')

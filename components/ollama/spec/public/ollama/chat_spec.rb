@@ -6,6 +6,9 @@ RSpec.describe Ollama::Chat do
   let(:messages) { [instance_double(Hash)] }
 
   subject { Ollama::Chat.new(client:, messages:, conversation:) }
+  before do
+    allow(client).to receive(:kind_of?).with(any_args).and_return(true)
+  end
 
   describe '#initialize' do
     it 'initializes with the correct attributes' do
