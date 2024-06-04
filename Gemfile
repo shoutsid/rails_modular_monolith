@@ -12,7 +12,7 @@ gem 'puma', '~> 6.4'
 # Compile and serve assets
 gem 'sprockets-rails', '~> 3.4.2'
 # Use Bootstrapp for stylesheets
-gem 'cssbundling-rails', '~> 1.0.0'
+gem 'cssbundling-rails', '~> 1.4.0'
 # Transpile app-like JavaScript
 gem 'jsbundling-rails', '~> 1.0.0'
 # Use Redis adapter to run Action Cable in production
