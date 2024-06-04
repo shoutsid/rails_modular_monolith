@@ -48,7 +48,7 @@ group :development, :test do
   gem 'graphwerk', '~> 1.2.0'
   gem 'factory_bot_rails', '~> 6.2'
   gem 'faker', '~> 2.19'
-  gem 'dotenv-rails', '~> 2.7', '>= 2.7.6'
+  gem 'dotenv-rails', '~> 3.1'
 end
 
 group :test do
