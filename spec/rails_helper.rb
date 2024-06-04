@@ -77,6 +77,7 @@ RSpec.configure do |config|
 
   FactoryBot.definition_file_paths = Dir.glob('components/*/spec/factories')
   FactoryBot.find_definitions
+  FactoryBot.automatically_define_enum_traits = true
 
   config.include_context 'Karafka consumer helpers', type: :request
 
