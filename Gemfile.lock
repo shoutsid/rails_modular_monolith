@@ -249,7 +249,7 @@ GEM
       pry (~> 0.9)
       slop (~> 3.0)
     public_suffix (5.0.5)
-    puma (5.6.8)
+    puma (6.4.2)
       nio4r (~> 2.0)
     racc (1.8.0)
     rack (2.2.9)
@@ -410,7 +410,7 @@ DEPENDENCIES
   packwerk (~> 2.2)
   pg (~> 1.1)
   pry-remote
-  puma (~> 5.0)
+  puma (~> 6.4)
   rack-mini-profiler (~> 2.0)
   rails (~> 7.0.0)
   rails-controller-testing (~> 1.0, >= 1.0.5)
