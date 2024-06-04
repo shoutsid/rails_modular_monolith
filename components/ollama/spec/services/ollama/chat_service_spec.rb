@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Ollama::ChatService do
-  let(:event_payload) { { conversation_id: 1, messages: [{ role: 'user', content: 'Hello' }] } }
+  let(:event_payload) { { conversation_id: 1, messages: [{ role: 'user', content: 'Hello' }], client: 'ollama_controller' } }
   let(:client) { class_double(Ollama) }
   let(:conversation) { FactoryBot.create(:ollama_conversation) }
 

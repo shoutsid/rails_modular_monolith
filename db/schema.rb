@@ -23,7 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_02_201741) do
     t.datetime "created_at", default: -> { "now()" }, null: false
     t.datetime "updated_at", default: -> { "now()" }, null: false
     t.string "data", null: false
-    t.vector "embedding"
+    t.vector "embedding", limit: 4096
     t.integer "token_count", null: false
     t.index ["created_at"], name: "index_ollama_chunks_on_created_at"
     t.index ["updated_at"], name: "index_ollama_chunks_on_updated_at"

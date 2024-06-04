@@ -68,9 +68,9 @@ module Ollama
         client.generate(**args, &event_callback)
       end
       after
-    rescue Ollama::Errors::RequestError => e
+    rescue Ollama::Errors::RequestError, Faraday::ResourceNotFound => e
       if e.detailed_message.include?('status 404')
-        rescue_from_404(e)
+        rescue_from_404(e, args)
         retry
       else
         raise e
@@ -94,9 +94,9 @@ module Ollama
         client.chat(**args, &event_callback)
       end
       after
-    rescue Ollama::Errors::RequestError => e
+    rescue Ollama::Errors::RequestError, Faraday::ResourceNotFound => e
       if e.detailed_message.include?('status 404')
-        rescue_from_404(e)
+        rescue_from_404(e, args)
         retry
       else
         raise e
@@ -125,9 +125,19 @@ module Ollama
     # Otherwsie, uses the default model.
     # @param model [String] the AI model to use for generating the response.
     def pull_model(model: DEFAULT_MODEL)
-      client.pull({ name: model }) do |event, raw|
-        raise InvalidModelError if !!event.dig('error') && event.dig('error').include?('file does not exist')
-        print '.'
+      # Skip pulling a new model in test env.
+      # We fall back to a safe client controller that we can pull from. Bypassing any that is passed.
+      # At the time of implimentation of the pull endpoint Langchainrb does not include this feature.
+      # Possible PR?
+      #
+      # https://github.com/patterns-ai-core/langchainrb/blob/main/lib/langchain/llm/ollama.rb
+      # TODO: Use ENV here for client url
+      unless Rails.env.test?
+        _client = Ollama.new(credentials: { address: 'http://ollama:11434' }, options: { server_sent_events: true })
+        _client.pull({ name: model }) do |event, raw|
+          raise InvalidModelError if !!event.dig('error') && event.dig('error').include?('file does not exist')
+          print '.'
+        end
       end
     end
 
@@ -142,13 +152,13 @@ module Ollama
 
     # Rescues from a 404 error by pulling the 'llama3' model and regenerating the response.
     #
-    # @param e [Ollama::Errors::RequestError] the 404 error that occurred.
-    def rescue_from_404(e)
+    # @param e [Ollama::Errors::RequestError | Faraday::ResourceNotFound] the 404 error that occurred.
+    def rescue_from_404(e, args)
       Rails.logger.warn e
-      Rails.logger.warn "Attempt to pull #{e.payload.dig(:model)} and regenerate."
+      Rails.logger.warn "Attempt to pull #{args[:model]} and regenerate."
       messages.pop
       last_message.destroy
-      pull_model(model: e.payload.dig(:model))
+      pull_model(model: args[:model])
     end
   end
 end

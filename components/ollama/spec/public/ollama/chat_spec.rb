@@ -49,7 +49,13 @@ RSpec.describe Ollama::Chat do
 
   describe '#pull_model' do
     it 'pulls the model passed from the AI service' do
-      expect(client).to receive(:pull).with(hash_including(name: 'llama3'))
+      expect(client).to_not receive(:pull).with(hash_including(name: 'llama3'))
+      subject.pull_model
+
+      allow(Rails).to receive_message_chain(:env, :test?).and_return(true)
+      dd = instance_double(Ollama::Controllers::Client)
+      allow(Ollama).to receive(:new).with(any_args).and_return(dd)
+      allow(dd).to receive(:pull)
       subject.pull_model
     end
   end
@@ -63,9 +69,9 @@ RSpec.describe Ollama::Chat do
 
   describe '#rescue_from_404' do
     it 'rescues from a 404 error by pulling the llama3 model and regenerating the response' do
-      expect(client).to receive(:pull).with(hash_including(name: 'llama3'))
+      expect(subject).to receive(:pull_model).with(hash_including(model: 'llama3'))
       expect(subject).to receive_message_chain(:last_message, :destroy)
-      subject.send(:rescue_from_404, instance_double(Ollama::Errors::RequestError, payload: { model: 'llama3' }))
+      subject.send(:rescue_from_404, instance_double(Ollama::Errors::RequestError, payload: { model: 'llama3' }), {model: 'llama3'})
     end
   end
 end

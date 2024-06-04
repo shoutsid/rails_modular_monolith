@@ -4,7 +4,7 @@
 #
 #  id          :uuid             not null, primary key
 #  data        :string           not null
-#  embedding   :vector
+#  embedding   :vector(4096)
 #  token_count :integer          not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

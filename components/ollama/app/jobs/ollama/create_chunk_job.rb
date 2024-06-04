@@ -3,7 +3,7 @@ module Ollama
     def perform(data:, message_ids:)
       messages = Ollama::Message.find(message_ids)
       messages.each do |message|
-        message.chunks.build(data:).save!
+        message.create_chunk!(data:)
       end
     end
   end

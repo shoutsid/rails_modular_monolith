@@ -15,7 +15,11 @@ module Ollama
       @conversation_id = @event_payload.dig('conversation_id') if !!@event_payload.dig('conversation_id')
       @_messages = @event_payload.dig('messages') if !!@event_payload.dig('messages')
       @model = !!@event_payload.dig('model') ? @event_payload.dig('model') : Ollama::Chat::DEFAULT_MODEL
-      @client = Langchain::LLM::Ollama.new(url: 'http://ollama:11434')
+      @client = if !!@event_payload.dig('client') && @event_payload.dig('client') == 'langchain'
+                  Langchain::LLM::Ollama.new(url: 'http://ollama:11434')
+                else
+                  Ollama.new(credentials: { address: 'http://ollama:11434' }, options: { server_sent_events: true })
+                end
 
       memoization_and_validation
     end
@@ -40,7 +44,7 @@ module Ollama
     #
     # @return [Ollama::Conversation] the conversation associated with the current instance.
     def conversation
-      is_int = conversation_id.present? && conversation_id.is_a?(Integer)
+      is_int = !!conversation_id && conversation_id.is_a?(Integer)
       @conversation ||= ((is_int && Ollama::Conversation.find(conversation_id)) || Ollama::Conversation.create!)
     end
 
@@ -51,8 +55,8 @@ module Ollama
     def messages
       return @messages if messages_is_array?(@messages) && validate!(@messages)
 
-      validate!(@_messages) if @messages.kind_of?(Object)
-      @messages = @_messages
+      validate!(@_messages) if @messages.kind_of?(Array)
+      @messages = @_messages || []
     end
 
     # Validates the structure of the provided messages. Raises an error if the messages are not an array or do not have the correct structure.

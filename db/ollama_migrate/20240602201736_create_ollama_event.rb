@@ -6,7 +6,11 @@ class CreateOllamaEvent < ActiveRecord::Migration[7.0]
       t.timestamps null: false, default: -> { 'NOW()' }, index: true
 
       t.string :data, null: false
-      t.vector :embedding, dimensions: 1536, using: :ivfflat, opclass: :vector_ip_ops
+      t.vector :embedding, using: :ivfflat, opclass: :vector_ip_ops, limit: LangchainrbRails
+        .config
+        .vectorsearch
+        .llm
+        .default_dimensions
       t.integer :token_count, null: false
     end
 

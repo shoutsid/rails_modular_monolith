@@ -38,6 +38,7 @@ gem 'ollama-ai', '~> 1.2.1'
 gem 'neighbor'
 gem 'tiktoken_ruby'
 gem "langchainrb", "~> 0.13.3"
+gem "langchainrb_rails", "~> 0.1.10"
 gem "faraday", "~> 2.9"
 
 group :development, :test do
@@ -76,4 +77,3 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
