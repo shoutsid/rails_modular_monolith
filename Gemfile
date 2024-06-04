@@ -47,7 +47,7 @@ group :development, :test do
   # Visual representation of components
   gem 'graphwerk', '~> 1.2.0'
   gem 'factory_bot_rails', '~> 6.2'
-  gem 'faker', '~> 2.19'
+  gem 'faker', '~> 3.4'
   gem 'dotenv-rails', '~> 3.1'
 end
 
