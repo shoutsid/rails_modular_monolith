@@ -19,7 +19,7 @@ chat_service = Ollama::ChatService.new(event_payload)
 ### Chatting with the AI model using the `call` method:
 
 ```ruby
-response = chat_service.call(model: 'llama3')
+response = chat_service.call
 ```
 
 This will send the messages to the AI model and generate a response. The response will be added to the conversation and can be accessed through the `last_message` attribute of the `chat_service` instance.
