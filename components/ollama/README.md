@@ -31,7 +31,7 @@ Examples
 
 ```ruby
 conversation = Ollama::Conversation.create! # TODO create a service
-messages = [{ role: 'system', content: 'Your are a helpful assistant' } , role: 'user', content: 'hi! please send me a long message' }]
+messages = [{ role: 'system', content: 'Your are a helpful assistant' } , { role: 'user', content: 'hi! please send me a long message' }]
 
 event_payload = {
   conversation_id: conversation.id, # optional
