@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.configure do |config|
   config.define_derived_metadata(file_path: %r{components/transactional_outbox/spec/}) do |metadata|
     metadata[:transactional_outbox] = true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ollama
   class SyncEmbeddingsJob < ApplicationJob
     queue_as :default
@@ -10,8 +12,8 @@ module Ollama
 
     def perform(chunk_id)
       chunk = Chunk.find(chunk_id)
-      embedding = client.embeddings({model: 'llama3', prompt: chunk.data})[0]
-      chunk.update!(embedding: embedding["embedding"])
+      embedding = client.embeddings({ model: 'llama3', prompt: chunk.data })[0]
+      chunk.update!(embedding: embedding['embedding'])
     end
   end
 end

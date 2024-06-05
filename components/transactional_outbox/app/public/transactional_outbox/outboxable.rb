@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module TransactionalOutbox
   module Outboxable
     extend ActiveSupport::Concern
@@ -22,29 +23,29 @@ module TransactionalOutbox
       end
     end
 
-    def save(**options, &block)
+    def save(**options, &)
       if options[:outbox_event].present?
         @outbox_event = options[:outbox_event].underscore.upcase
         # options.delete(:outbox_event)
       end
 
-      super(**options, &block)
+      super
     end
 
-    def save!(**options, &block)
+    def save!(**options, &)
       if options[:outbox_event].present?
         @outbox_event = options[:outbox_event].underscore.upcase
         # options.delete(:outbox_event)
       end
-      super(**options, &block)
+      super
     end
 
     private
 
     def create_outbox!(action, event_name)
       unless self.class.module_parent.const_defined?('OUTBOX_MODEL')
-        *namespace, klass = self.class.name.underscore.upcase.split('/')
-        namespace = namespace.reverse.join('.')
+        *namespace, _ = self.class.name.underscore.upcase.split('/')
+        namespace.reverse.join('.')
         outbox_model_name = TransactionalOutbox.configuration.outbox_mapping[self.class.module_parent.name]
         outbox_model = outbox_model_name&.safe_constantize || TransactionalOutbox::Outbox
         self.class.module_parent.const_set('OUTBOX_MODEL', outbox_model)
@@ -61,7 +62,7 @@ module TransactionalOutbox
 
       if outbox.invalid?
         outbox.errors.each do |error|
-          self.errors.import(error, attribute: "outbox.#{error.attribute}")
+          errors.import(error, attribute: "outbox.#{error.attribute}")
         end
       end
 
@@ -81,7 +82,8 @@ module TransactionalOutbox
       when :destroy
         payload[:before] = as_json
       else
-        raise ActiveRecord::RecordNotSaved.new("Failed to create Outbox payload for #{self.class.name}: #{identifier}", self)
+        raise ActiveRecord::RecordNotSaved.new("Failed to create Outbox payload for #{self.class.name}: #{identifier}",
+                                               self)
       end
       payload
     end

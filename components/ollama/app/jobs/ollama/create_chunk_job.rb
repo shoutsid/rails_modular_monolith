@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ollama
   class CreateChunkJob < ApplicationJob
     def perform(data:, message_ids:)

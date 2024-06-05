@@ -13,10 +13,10 @@ module Karafka
     module RSpec
       # RSpec helpers module that needs to be included
       module Helpers
-        def _karafka_produce(payload, metadata = {})
+        def _karafka_produce(payload, _metadata = {})
           # TODO: add before for destroy case
           component = JSON.parse(payload)['payload']['after']['event'].split('.').last.downcase
-          topic = "#{ENV["KAFKA_CONNECT_DB_SERVER_NAME"]}_#{component}.public.#{component}_outboxes"
+          "#{ENV.fetch('KAFKA_CONNECT_DB_SERVER_NAME', nil)}_#{component}.public.#{component}_outboxes"
         end
 
         # Creates a consumer instance for a given topic

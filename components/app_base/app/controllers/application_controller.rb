@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   def current_user
     raise 'Never call this method. Call current_user_identifier instead'
@@ -7,7 +9,5 @@ class ApplicationController < ActionController::Base
     raise 'Not Implemented Error. Should be implemented in each component ApplicationController.'
   end
 
-
-  def home
-  end
+  def home; end
 end

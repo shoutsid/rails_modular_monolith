@@ -4,6 +4,7 @@ require:
   - rubocop-rspec
   - rubocop-rspec_rails
   - rubocop-rails
+  - rubocop-rake
 
 AllCops:
   NewCops: enable
@@ -14,5 +15,13 @@ AllCops:
     - 'tmp/**/*'
     - '.git/**/*'
     - 'bin/*'
+    - 'db/**/*'
   TargetRubyVersion: 3.2
   SuggestExtensions: true
+
+Metrics/BlockLength:
+  Exclude:
+    - '**/*.rake'
+
+RSpec/AnyInstance:
+  Enabled: false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Ollama::Chat do
@@ -7,7 +9,7 @@ RSpec.describe Ollama::Chat do
 
   subject { Ollama::Chat.new(client:, messages:, conversation:) }
   before do
-    allow(client).to receive(:kind_of?).with(any_args).and_return(true)
+    allow(client).to receive(:is_a?).with(any_args).and_return(true)
   end
 
   describe '#initialize' do
@@ -20,14 +22,15 @@ RSpec.describe Ollama::Chat do
 
   describe '#generate' do
     it 'generates a response using the AI model with the given prompt' do
-      expect(client).to receive(:generate).with(hash_including(model: 'llama3', prompt: 'hi! please send me a long message'))
+      expect(client).to receive(:generate).with(hash_including(model: 'llama3',
+                                                               prompt: 'hi! please send me a long message'))
       subject.generate
     end
   end
 
   describe '#chat' do
     it 'chats with the AI model using the given message' do
-      expect(client).to receive(:chat).with(hash_including(model: 'llama3', messages: messages))
+      expect(client).to receive(:chat).with(hash_including(model: 'llama3', messages:))
       subject.chat
     end
   end
@@ -42,7 +45,8 @@ RSpec.describe Ollama::Chat do
   describe '#after' do
     it 'processes the response from the AI model after it has been generated' do
       expect(Ollama::Message).to receive(:create!)
-      expect(subject).to receive_message_chain(:last_message, :events, :pluck, :map, :join).and_return('Healthy response.')
+      expect(subject).to receive_message_chain(:last_message, :events, :pluck, :map,
+                                               :join).and_return('Healthy response.')
       subject.after
     end
   end
@@ -71,7 +75,8 @@ RSpec.describe Ollama::Chat do
     it 'rescues from a 404 error by pulling the llama3 model and regenerating the response' do
       expect(subject).to receive(:pull_model).with(hash_including(model: 'llama3'))
       expect(subject).to receive_message_chain(:last_message, :destroy)
-      subject.send(:rescue_from_404, instance_double(Ollama::Errors::RequestError, payload: { model: 'llama3' }), {model: 'llama3'})
+      subject.send(:rescue_from_404, instance_double(Ollama::Errors::RequestError, payload: { model: 'llama3' }),
+                   { model: 'llama3' })
     end
   end
 end

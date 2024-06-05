@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Support
   class KafkaConnectMock
     def self.wrap_message(message)

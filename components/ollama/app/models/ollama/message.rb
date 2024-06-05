@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: ollama_messages
@@ -22,7 +24,7 @@ module Ollama
     has_and_belongs_to_many :chunks, foreign_key: :ollama_message_id, primary_key: :id
 
     enum :role, {
-      system: "system", assistant: "assistant", user: "user"
+      system: 'system', assistant: 'assistant', user: 'user'
     }, prefix: true
 
     after_create :create_chunk

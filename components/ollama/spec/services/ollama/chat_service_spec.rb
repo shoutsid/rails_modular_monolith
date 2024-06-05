@@ -1,13 +1,17 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Ollama::ChatService do
-  let(:event_payload) { { conversation_id: 1, messages: [{ role: 'user', content: 'Hello' }], client: 'ollama_controller' } }
+  let(:event_payload) do
+    { conversation_id: 1, messages: [{ role: 'user', content: 'Hello' }], client: 'ollama_controller' }
+  end
   let(:client) { class_double(Ollama) }
   let(:conversation) { FactoryBot.create(:ollama_conversation) }
 
   before do
     allow(Ollama).to receive(:new).and_return(client)
-    allow(client).to receive(:kind_of?).with(any_args).and_return(true)
+    allow(client).to receive(:is_a?).with(any_args).and_return(true)
     allow(Ollama::Conversation).to receive(:find).and_return(conversation)
     allow(Ollama::Conversation).to receive(:create!)
   end
@@ -32,7 +36,8 @@ RSpec.describe Ollama::ChatService do
 
   describe '#call' do
     it 'calls the chat service with the provided client, messages, and conversation' do
-      expect(Ollama::Chat).to receive(:new).with(hash_including client: client, messages: subject.send(:messages), conversation: conversation).and_call_original
+      expect(Ollama::Chat).to receive(:new).with(hash_including(client:, messages: subject.send(:messages),
+                                                                conversation:)).and_call_original
       expect_any_instance_of(Ollama::Chat).to receive(:chat).with(any_args)
       subject.call
     end
@@ -83,7 +88,8 @@ RSpec.describe Ollama::ChatService do
 
   describe '#messages_valid_structure?' do
     it 'returns true if messages have a valid structure' do
-      expect(subject.send(:messages_valid_structure?, [{ role: 'user', content: 'Hello' }.with_indifferent_access])).to be true
+      expect(subject.send(:messages_valid_structure?,
+                          [{ role: 'user', content: 'Hello' }.with_indifferent_access])).to be true
     end
 
     it 'returns false if messages do not have a valid structure' do

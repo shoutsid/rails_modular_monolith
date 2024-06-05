@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: ollama_chunks
@@ -36,7 +38,7 @@ module Ollama
     end
 
     def set_token_count
-      self.token_count = Tiktoken.encoding_for_model("gpt-4").encode(data).length
+      self.token_count = Tiktoken.encoding_for_model('gpt-4').encode(data).length
     end
 
     def sync_embeddings

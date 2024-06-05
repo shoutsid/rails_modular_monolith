@@ -43,12 +43,12 @@ gem 'neighbor'
 gem 'ollama-ai', '~> 1.2.1'
 gem 'tiktoken_ruby'
 
-
 group :development, :test do
   # Rubocop & Linting
   gem 'rubocop', '~> 1.64', require: false
   gem 'rubocop-factory_bot', '~> 2.25'
   gem 'rubocop-rails', '~> 2.25'
+  gem 'rubocop-rake', '~> 0.6.0'
   gem 'rubocop-rspec', '~> 2.30'
   gem 'rubocop-rspec_rails', '~> 2.28'
 
@@ -87,4 +87,3 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-

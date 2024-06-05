@@ -27,7 +27,7 @@ module Ollama
     validates_presence_of :aggregate, :event_id
 
     def self.already_processed?(event_id, aggregate)
-      exists?(event_id: event_id, aggregate: aggregate, status: [:processing, :succeeded])
+      exists?(event_id:, aggregate:, status: %i[processing succeeded])
     end
   end
 end

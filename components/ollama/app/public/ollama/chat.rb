@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ollama-ai'
 
 module Ollama
@@ -26,14 +28,16 @@ module Ollama
     # @param messages [Array<Hash>] the messages in the conversation.
     # @param conversation [Ollama::Conversation] the conversation object associated with the chat.
     def initialize(client:, messages:, conversation:)
-      @client, @messages, @conversation, = client, messages, conversation
+      @client = client
+      @messages = messages
+      @conversation = conversation
       @event_callback = event_callback
     end
 
     def event_callback
       if ollama_controller_client?
         ollama_controller_client_callback
-      elsif client.kind_of?(Langchain::LLM::Ollama)
+      elsif client.is_a?(Langchain::LLM::Ollama)
         langchain_event_callback
       else
         raise InvalidClient, 'the client provided is not of type Ollama::Controllers::Client or Langchain::LLM::Ollama'
@@ -43,7 +47,10 @@ module Ollama
     def ollama_controller_client_callback
       lambda do |event, _raw|
         create_event(**event)
-        raise InvalidRoleError, event.dig('error') if !!event.dig('error') && event.dig('error').include?('invalid role')
+        if !!event['error'] && event['error'].include?('invalid role')
+          raise InvalidRoleError,
+                event['error']
+        end
       end
     end
 
@@ -51,7 +58,10 @@ module Ollama
       lambda do |langchain_event|
         event = langchain_event.raw_response
         create_event(event)
-        raise InvalidRoleError, event.dig('error') if !!event.dig('error') && event.dig('error').include?('invalid role')
+        if !!event['error'] && event['error'].include?('invalid role')
+          raise InvalidRoleError,
+                event['error']
+        end
       end
     end
 
@@ -61,7 +71,7 @@ module Ollama
     # @param prompt [String] the prompt to generate a response for.
     def generate(model: DEFAULT_MODEL, prompt: 'hi! please send me a long message')
       before(content: prompt)
-      args = {model:, prompt:}
+      args = { model:, prompt: }
       if ollama_controller_client?
         client.generate(args, &event_callback)
       else
@@ -69,16 +79,14 @@ module Ollama
       end
       after
     rescue Ollama::Errors::RequestError, Faraday::ResourceNotFound => e
-      if e.detailed_message.include?('status 404')
-        rescue_from_404(e, args)
-        retry
-      else
-        raise e
-      end
+      raise e unless e.detailed_message.include?('status 404')
+
+      rescue_from_404(e, args)
+      retry
     end
 
     def ollama_controller_client?
-      client.kind_of?(Ollama::Controllers::Client)
+      client.is_a?(Ollama::Controllers::Client)
     end
 
     # Chats with the AI model using the given message.
@@ -87,7 +95,7 @@ module Ollama
     # @param message [String] the message to send to the AI model.
     def chat(model: DEFAULT_MODEL, message: 'hi! please send me a long message')
       before(content: message)
-      args = {model:, messages:}
+      args = { model:, messages: }
       if ollama_controller_client?
         client.chat(args, &event_callback)
       else
@@ -95,12 +103,10 @@ module Ollama
       end
       after
     rescue Ollama::Errors::RequestError, Faraday::ResourceNotFound => e
-      if e.detailed_message.include?('status 404')
-        rescue_from_404(e, args)
-        retry
-      else
-        raise e
-      end
+      raise e unless e.detailed_message.include?('status 404')
+
+      rescue_from_404(e, args)
+      retry
     end
 
     # Processes the given content before sending it to the AI model.
@@ -113,11 +119,11 @@ module Ollama
 
     # Processes the response from the AI model after it has been generated.
     def after
-      complete_response = last_message&.events&.pluck(:data)&.map{|e|
-       content = e.dig('message', 'content')
-       content ? content : (e.dig('response') || '')
-      }&.join
-      self.last_message = Ollama::Message.create!(role: 'assistant', content: complete_response, conversation: )
+      complete_response = last_message&.events&.pluck(:data)&.map do |e|
+        content = e.dig('message', 'content')
+        content || (e['response'] || '')
+      end&.join
+      self.last_message = Ollama::Message.create!(role: 'assistant', content: complete_response, conversation:)
       messages << { role: 'assistant', content: complete_response }
     end
 
@@ -132,12 +138,13 @@ module Ollama
       #
       # https://github.com/patterns-ai-core/langchainrb/blob/main/lib/langchain/llm/ollama.rb
       # TODO: Use ENV here for client url
-      unless Rails.env.test?
-        _client = Ollama.new(credentials: { address: 'http://ollama:11434' }, options: { server_sent_events: true })
-        _client.pull({ name: model }) do |event, raw|
-          raise InvalidModelError if !!event.dig('error') && event.dig('error').include?('file does not exist')
-          print '.'
-        end
+      return if Rails.env.test?
+
+      _client = Ollama.new(credentials: { address: 'http://ollama:11434' }, options: { server_sent_events: true })
+      _client.pull({ name: model }) do |event, _raw|
+        raise InvalidModelError if !event['error'].nil? && event['error'].include?('file does not exist')
+
+        print '.'
       end
     end
 

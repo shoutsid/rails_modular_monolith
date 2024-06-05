@@ -21,6 +21,8 @@ RUN apt-get update -qq && apt-get install -y nodejs && npm install -g yarn
 WORKDIR /rails
 
 COPY Gemfile Gemfile.lock ./
+RUN gem install bundler -v '~> 2.5'
+RUN gem update --system
 
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git

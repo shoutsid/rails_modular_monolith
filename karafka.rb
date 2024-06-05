@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require ::File.expand_path('config/environment', __dir__)
+require File.expand_path('config/environment', __dir__)
 
 # Karafka app object
 class KarafkaApp < Karafka::App
@@ -31,7 +31,7 @@ class KarafkaApp < Karafka::App
     active_job_topic :default
 
     consumer_group :ollama do
-      topic "#{ENV["KAFKA_CONNECT_DB_SERVER_NAME"]}_ollama.public.ollama_outboxes" do
+      topic "#{ENV.fetch('KAFKA_CONNECT_DB_SERVER_NAME', nil)}_ollama.public.ollama_outboxes" do
         consumer Ollama::BatchBaseConsumer
         dead_letter_queue(
           topic: 'ollama_dead_messages',

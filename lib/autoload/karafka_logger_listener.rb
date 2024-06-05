@@ -49,11 +49,7 @@ class KarafkaLoggerListener
 
       warn "Thread TID-#{tid} #{thread['label']}"
 
-      if thread.backtrace
-        warn thread.backtrace.join("\n")
-      else
-        warn '<no backtrace available>'
-      end
+      warn(thread.backtrace ? thread.backtrace.join("\n") : '<no backtrace available>')
     end
   end
 
@@ -93,6 +89,7 @@ class KarafkaLoggerListener
   # There are many types of errors that can occur in many places, but we provide a single
   # handler for all of them to simplify error instrumentation.
   # @param event [Dry::Events::Event] event details including payload
+  # rubocop:disable Metrics/MethodLength
   def on_error_occurred(event)
     type = event[:type]
     error = event[:error]
@@ -130,6 +127,7 @@ class KarafkaLoggerListener
       raise Errors::UnsupportedCaseError, event
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   USED_LOG_LEVELS.each do |log_level|
     define_method log_level do |*args|

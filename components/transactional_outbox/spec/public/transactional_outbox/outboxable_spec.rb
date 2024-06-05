@@ -7,7 +7,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
     describe '#save' do
       subject { fake_model_instance.save }
 
-      let(:fake_model_instance) { CustomOutbox::TestModel.new(identifier: identifier) }
+      let(:fake_model_instance) { CustomOutbox::TestModel.new(identifier:) }
       let(:identifier) { SecureRandom.uuid }
 
       context 'when record is created' do
@@ -51,7 +51,9 @@ RSpec.describe TransactionalOutbox::Outboxable do
           end
 
           it 'adds the errors to the model' do
-            expect { subject }.to change { fake_model_instance.errors.messages }.from({}).to({ "outbox.event": ["can't be blank"] })
+            expect { subject }.to change {
+                                    fake_model_instance.errors.messages
+                                  }.from({}).to({ "outbox.event": ["can't be blank"] })
           end
         end
 
@@ -67,7 +69,9 @@ RSpec.describe TransactionalOutbox::Outboxable do
           end
 
           it 'does not create the record' do
-            expect { subject }.to raise_error(ActiveRecord::RecordNotSaved).and not_change(CustomOutbox::TestModel, :count)
+            expect do
+              subject
+            end.to raise_error(ActiveRecord::RecordNotSaved).and not_change(CustomOutbox::TestModel, :count)
           end
 
           it 'does not create the outbox record' do
@@ -96,7 +100,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
           fake_model_instance.save
         end
 
-        let(:fake_model_instance) { CustomOutbox::TestModel.create(identifier: identifier) }
+        let(:fake_model_instance) { CustomOutbox::TestModel.create(identifier:) }
         let!(:fake_model_json) { fake_model_instance.to_json }
         let(:identifier) { SecureRandom.uuid }
         let(:new_identifier) { SecureRandom.uuid }
@@ -131,7 +135,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
       subject { fake_model_instance.save! }
 
       let(:identifier) { SecureRandom.uuid }
-      let(:fake_model_instance) { CustomOutbox::TestModel.new(identifier: identifier) }
+      let(:fake_model_instance) { CustomOutbox::TestModel.new(identifier:) }
 
       context 'when record is created' do
         context 'when outbox record is created' do
@@ -157,7 +161,9 @@ RSpec.describe TransactionalOutbox::Outboxable do
           end
 
           it 'does not create the record' do
-            expect { subject }.to raise_error(ActiveRecord::RecordInvalid).and not_change(CustomOutbox::TestModel, :count)
+            expect do
+              subject
+            end.to raise_error(ActiveRecord::RecordInvalid).and not_change(CustomOutbox::TestModel, :count)
           end
 
           it 'does not create the outbox record' do
@@ -182,7 +188,9 @@ RSpec.describe TransactionalOutbox::Outboxable do
           end
 
           it 'does not create the record' do
-            expect { subject }.to raise_error(ActiveRecord::RecordNotSaved).and not_change(CustomOutbox::TestModel, :count)
+            expect do
+              subject
+            end.to raise_error(ActiveRecord::RecordNotSaved).and not_change(CustomOutbox::TestModel, :count)
           end
 
           it 'does not create the outbox record' do
@@ -209,7 +217,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
     end
 
     describe '#create' do
-      subject { CustomOutbox::TestModel.create(identifier: identifier) }
+      subject { CustomOutbox::TestModel.create(identifier:) }
 
       let(:identifier) { SecureRandom.uuid }
 
@@ -242,7 +250,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
     describe '#update' do
       subject { fake_model.update(identifier: new_identifier) }
 
-      let!(:fake_model) { CustomOutbox::TestModel.create(identifier: identifier) }
+      let!(:fake_model) { CustomOutbox::TestModel.create(identifier:) }
       let!(:fake_old_model) { fake_model.to_json }
       let(:identifier) { SecureRandom.uuid }
       let(:new_identifier) { SecureRandom.uuid }
@@ -277,7 +285,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
     describe '#destroy' do
       subject { fake_model.destroy }
 
-      let!(:fake_model) { CustomOutbox::TestModel.create(identifier: identifier) }
+      let!(:fake_model) { CustomOutbox::TestModel.create(identifier:) }
       let(:identifier) { SecureRandom.uuid }
 
       context 'when record is destroyed' do
@@ -311,7 +319,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
     describe '#save' do
       subject { fake_model_instance.save }
 
-      let(:fake_model_instance) { DefaultOutbox::TestModel.new(identifier: identifier) }
+      let(:fake_model_instance) { DefaultOutbox::TestModel.new(identifier:) }
       let(:identifier) { SecureRandom.uuid }
 
       context 'when record is created' do
@@ -355,7 +363,9 @@ RSpec.describe TransactionalOutbox::Outboxable do
           end
 
           it 'adds the errors to the model' do
-            expect { subject }.to change { fake_model_instance.errors.messages }.from({}).to({ "outbox.event": ["can't be blank"] })
+            expect { subject }.to change {
+                                    fake_model_instance.errors.messages
+                                  }.from({}).to({ "outbox.event": ["can't be blank"] })
           end
         end
 
@@ -371,11 +381,15 @@ RSpec.describe TransactionalOutbox::Outboxable do
           end
 
           it 'does not create the record' do
-            expect { subject }.to raise_error(ActiveRecord::RecordNotSaved).and not_change(DefaultOutbox::TestModel, :count)
+            expect do
+              subject
+            end.to raise_error(ActiveRecord::RecordNotSaved).and not_change(DefaultOutbox::TestModel, :count)
           end
 
           it 'does not create the outbox record' do
-            expect { subject }.to raise_error(ActiveRecord::RecordNotSaved).and not_change(TransactionalOutbox::Outbox, :count)
+            expect do
+              subject
+            end.to raise_error(ActiveRecord::RecordNotSaved).and not_change(TransactionalOutbox::Outbox, :count)
           end
         end
       end
@@ -400,7 +414,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
           fake_model_instance.save
         end
 
-        let(:fake_model_instance) { DefaultOutbox::TestModel.create(identifier: identifier) }
+        let(:fake_model_instance) { DefaultOutbox::TestModel.create(identifier:) }
         let!(:fake_model_json) { fake_model_instance.to_json }
         let(:identifier) { SecureRandom.uuid }
         let(:new_identifier) { SecureRandom.uuid }
@@ -435,7 +449,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
       subject { fake_model_instance.save! }
 
       let(:identifier) { SecureRandom.uuid }
-      let(:fake_model_instance) { DefaultOutbox::TestModel.new(identifier: identifier) }
+      let(:fake_model_instance) { DefaultOutbox::TestModel.new(identifier:) }
 
       context 'when record is created' do
         context 'when outbox record is created' do
@@ -461,11 +475,15 @@ RSpec.describe TransactionalOutbox::Outboxable do
           end
 
           it 'does not create the record' do
-            expect { subject }.to raise_error(ActiveRecord::RecordInvalid).and not_change(DefaultOutbox::TestModel, :count)
+            expect do
+              subject
+            end.to raise_error(ActiveRecord::RecordInvalid).and not_change(DefaultOutbox::TestModel, :count)
           end
 
           it 'does not create the outbox record' do
-            expect { subject }.to raise_error(ActiveRecord::RecordInvalid).and not_change(TransactionalOutbox::Outbox, :count)
+            expect do
+              subject
+            end.to raise_error(ActiveRecord::RecordInvalid).and not_change(TransactionalOutbox::Outbox, :count)
           end
 
           it 'adds the errors to the model' do
@@ -486,11 +504,15 @@ RSpec.describe TransactionalOutbox::Outboxable do
           end
 
           it 'does not create the record' do
-            expect { subject }.to raise_error(ActiveRecord::RecordNotSaved).and not_change(DefaultOutbox::TestModel, :count)
+            expect do
+              subject
+            end.to raise_error(ActiveRecord::RecordNotSaved).and not_change(DefaultOutbox::TestModel, :count)
           end
 
           it 'does not create the outbox record' do
-            expect { subject }.to raise_error(ActiveRecord::RecordNotSaved).and not_change(TransactionalOutbox::Outbox, :count)
+            expect do
+              subject
+            end.to raise_error(ActiveRecord::RecordNotSaved).and not_change(TransactionalOutbox::Outbox, :count)
           end
         end
       end
@@ -503,17 +525,21 @@ RSpec.describe TransactionalOutbox::Outboxable do
         end
 
         it 'does not create the record' do
-          expect { subject }.to raise_error(ActiveRecord::RecordInvalid).and not_change(DefaultOutbox::TestModel, :count)
+          expect do
+            subject
+          end.to raise_error(ActiveRecord::RecordInvalid).and not_change(DefaultOutbox::TestModel, :count)
         end
 
         it 'does not create the outbox record' do
-          expect { subject }.to raise_error(ActiveRecord::RecordInvalid).and not_change(TransactionalOutbox::Outbox, :count)
+          expect do
+            subject
+          end.to raise_error(ActiveRecord::RecordInvalid).and not_change(TransactionalOutbox::Outbox, :count)
         end
       end
     end
 
     describe '#create' do
-      subject { DefaultOutbox::TestModel.create(identifier: identifier) }
+      subject { DefaultOutbox::TestModel.create(identifier:) }
 
       let(:identifier) { SecureRandom.uuid }
 
@@ -546,7 +572,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
     describe '#update' do
       subject { fake_model.update(identifier: new_identifier) }
 
-      let!(:fake_model) { DefaultOutbox::TestModel.create(identifier: identifier) }
+      let!(:fake_model) { DefaultOutbox::TestModel.create(identifier:) }
       let!(:fake_old_model) { fake_model.to_json }
       let(:identifier) { SecureRandom.uuid }
       let(:new_identifier) { SecureRandom.uuid }
@@ -581,7 +607,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
     describe '#destroy' do
       subject { fake_model.destroy }
 
-      let!(:fake_model) { DefaultOutbox::TestModel.create(identifier: identifier) }
+      let!(:fake_model) { DefaultOutbox::TestModel.create(identifier:) }
       let(:identifier) { SecureRandom.uuid }
 
       context 'when record is destroyed' do

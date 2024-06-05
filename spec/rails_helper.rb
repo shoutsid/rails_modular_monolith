@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'karafka/testing/rspec/helpers'
@@ -27,7 +29,7 @@ require 'support/karafka_test_helper'
 # require only the support files necessary.
 #
 
-Dir[Rails.root.join('components', '*', 'spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('components/*/spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -39,7 +41,7 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_paths = [Dir.glob('components/*/spec/factories'), Dir.glob("spec/fixtures")]
+  config.fixture_paths = [Dir.glob('components/*/spec/factories'), Dir.glob('spec/fixtures')]
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -79,19 +81,20 @@ RSpec.configure do |config|
   FactoryBot.find_definitions
   FactoryBot.automatically_define_enum_traits = true
 
-  config.include_context 'Karafka consumer helpers', type: :request
+  config.include_context 'with karafka consumer helpers', type: :request
 
   config.before type: :request do
     TransactionalOutbox.configuration.outbox_mapping.each_value do |outbox_klass|
       outbox_klass = outbox_klass.constantize
       allow_any_instance_of(outbox_klass).to receive(:save!).and_wrap_original do |m, *args|
         result = m.call(*args)
-        return unless result
+        break unless result
+
         outbox_message = outbox_klass.last
         karafka.produce(Support::KafkaConnectMock.wrap_message(outbox_message))
 
         if defined?(consumers) && !consumers.empty?
-          consumers.each { |consumer| consumer.consume } # TODO: which consumer?
+          consumers.each(&:consume) # TODO: which consumer?
         end
       end
     end

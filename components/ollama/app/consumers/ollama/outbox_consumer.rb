@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-
 module Ollama
   class OutboxConsumer
-    EVENTS_MAPPING = {}
+    EVENTS_MAPPING = {}.freeze
 
     def initialize(payload)
       @payload = payload
@@ -12,14 +11,15 @@ module Ollama
     def consume
       if Ollama::ConsumedMessage.already_processed?(identifier, aggregate)
         Karafka.logger.info "Already processed event: #{pretty_print_event}"
-        return
+        nil
       elsif EVENTS_MAPPING.keys.include?(event)
         Karafka.logger.info "New [Ollama::Outbox] event: #{pretty_print_event}"
-        consumed_message = Ollama::ConsumedMessage.create!(event_id: identifier, aggregate: aggregate, status: :processing)
+        consumed_message = Ollama::ConsumedMessage.create!(event_id: identifier, aggregate:,
+                                                           status: :processing)
         begin
           EVENTS_MAPPING[event].new(data).call
           consumed_message.update!(status: :succeeded)
-        rescue
+        rescue StandardError
           consumed_message.update!(status: :failed)
         end
       end

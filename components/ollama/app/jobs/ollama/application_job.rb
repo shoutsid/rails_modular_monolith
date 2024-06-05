@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ollama
   class ApplicationJob < ActiveJob::Base
     # Automatically retry jobs that encountered a deadlock

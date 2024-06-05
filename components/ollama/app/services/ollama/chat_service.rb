@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ollama
   class MessagesInvalidError < StandardError
     # Custom error class raised when messages are invalid
@@ -12,10 +14,10 @@ module Ollama
     # @param event_payload [Hash | HashWithIndifferentAccess] containing the event payload data.
     def initialize(event_payload)
       @event_payload = event_payload.with_indifferent_access
-      @conversation_id = @event_payload.dig('conversation_id') if !!@event_payload.dig('conversation_id')
-      @_messages = @event_payload.dig('messages') if !!@event_payload.dig('messages')
-      @model = !!@event_payload.dig('model') ? @event_payload.dig('model') : Ollama::Chat::DEFAULT_MODEL
-      @client = if !!@event_payload.dig('client') && @event_payload.dig('client') == 'langchain'
+      @conversation_id = @event_payload['conversation_id'] unless @event_payload['conversation_id'].nil?
+      @_messages = @event_payload['messages'] unless @event_payload['messages'].nil?
+      @model = @event_payload['model'].nil? ? Ollama::Chat::DEFAULT_MODEL : @event_payload['model']
+      @client = if !@event_payload['client'].nil? && @event_payload['client'] == 'langchain'
                   Langchain::LLM::Ollama.new(url: 'http://ollama:11434')
                 else
                   Ollama.new(credentials: { address: 'http://ollama:11434' }, options: { server_sent_events: true })
@@ -44,8 +46,8 @@ module Ollama
     #
     # @return [Ollama::Conversation] the conversation associated with the current instance.
     def conversation
-      is_int = !!conversation_id && conversation_id.is_a?(Integer)
-      @conversation ||= ((is_int && Ollama::Conversation.find(conversation_id)) || Ollama::Conversation.create!)
+      is_int = !conversation_id.nil? && conversation_id.is_a?(Integer)
+      @conversation ||= (is_int && Ollama::Conversation.find(conversation_id)) || Ollama::Conversation.create!
     end
 
     # Retrieves the messages associated with the current instance. Validates the structure of the messages and raises an error
@@ -55,7 +57,7 @@ module Ollama
     def messages
       return @messages if messages_is_array?(@messages) && validate!(@messages)
 
-      validate!(@_messages) if @messages.kind_of?(Array)
+      validate!(@_messages) if @messages.is_a?(Array)
       @messages = @_messages || []
     end
 
@@ -67,7 +69,8 @@ module Ollama
       raise(Ollama::MessagesInvalidError, 'messages provided should be an Array') unless messages_is_array?(_messages)
 
       unless messages_valid_structure?(_messages)
-        raise(Ollama::MessagesInvalidError, "messages should be in the valid structure.For example: => [{role: 'user', content: 'content here'}]")
+        raise(Ollama::MessagesInvalidError,
+              "messages should be in the valid structure.For example: => [{role: 'user', content: 'content here'}]")
       end
 
       true
@@ -94,8 +97,8 @@ module Ollama
     # @param messages [Array<Hash>] the messages to check.
     # @return [Boolean] true if messages have a valid structure, false otherwise.
     def messages_valid_structure?(_messages)
-      _messages.all? { |e| e.is_a?(Hash) || e.is_a?(HashWithIndifferentAccess) } &&
-        _messages.all? { |e| !!e.dig('role') && !!e.dig('content') }
+      _messages.all? { |e| e.is_a?(Hash) || e.is_a?(ActiveSupport::HashWithIndifferentAccess) } &&
+        _messages.all? { |e| !!e['role'] && !!e['content'] }
     end
   end
 end
