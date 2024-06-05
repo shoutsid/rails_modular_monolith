@@ -57,7 +57,7 @@ end
 group :test do
   gem 'karafka-testing'
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
-  gem 'rspec-rails', '~> 5.0', '>= 5.0.2'
+  gem 'rspec-rails', '~> 6.1'
   gem 'super_diff', '~> 0.9.0'
 end
 
