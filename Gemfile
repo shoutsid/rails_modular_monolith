@@ -89,6 +89,7 @@ group :development do
 
   # Static Typing
   gem 'sorbet', '~> 0.5.11414'
+  gem 'sord', '~> 6.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -96,5 +97,3 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Static Typing
 gem 'sorbet-runtime', '~> 0.5.11414'
-
-gem "sord", "~> 6.0"
