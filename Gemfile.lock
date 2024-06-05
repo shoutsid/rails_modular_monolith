@@ -259,14 +259,15 @@ GEM
       faraday-typhoeus (~> 1.1)
     optimist (3.1.0)
     orm_adapter (0.5.0)
-    packwerk (2.3.0)
-      activesupport (>= 5.2)
+    packwerk (3.2.1)
+      activesupport (>= 6.0)
       ast
       better_html
       bundler
       constant_resolver (>= 0.2.0)
       parallel
       parser
+      prism (>= 0.25.0)
       sorbet-runtime (>= 0.5.9914)
       zeitwerk (>= 2.6.1)
     parallel (1.24.0)
@@ -278,6 +279,7 @@ GEM
     pg (1.5.6)
     pragmatic_segmenter (0.3.23)
       unicode
+    prism (0.29.0)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -412,7 +414,7 @@ GEM
       tilt (~> 2.0)
     slop (3.6.0)
     smart_properties (1.17.0)
-    sorbet-runtime (0.5.11406)
+    sorbet-runtime (0.5.11414)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -497,7 +499,7 @@ DEPENDENCIES
   make_menu (~> 2.1.0)
   neighbor
   ollama-ai (~> 1.2.1)
-  packwerk (~> 2.2)
+  packwerk (~> 3.2)
   pg (~> 1.1)
   pry-remote
   puma (~> 6.4)

@@ -56,7 +56,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-remote', require: 'pry-remote'
   # Modularization
-  gem 'packwerk', '~> 2.2'
+  gem 'packwerk', '~> 3.2'
   # Visual representation of components
   gem 'dotenv-rails', '~> 3.1'
   gem 'factory_bot_rails', '~> 6.2'
