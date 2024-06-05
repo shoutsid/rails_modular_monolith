@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -34,24 +36,32 @@ gem 'karafka-web'
 gem 'waterdrop'
 
 # AI focused gems
-gem 'ollama-ai', '~> 1.2.1'
+gem 'faraday', '~> 2.9'
+gem 'langchainrb', '~> 0.13.3'
+gem 'langchainrb_rails', '~> 0.1.10'
 gem 'neighbor'
+gem 'ollama-ai', '~> 1.2.1'
 gem 'tiktoken_ruby'
-gem "langchainrb", "~> 0.13.3"
-gem "langchainrb_rails", "~> 0.1.10"
-gem "faraday", "~> 2.9"
+
 
 group :development, :test do
+  # Rubocop & Linting
+  gem 'rubocop', '~> 1.64', require: false
+  gem 'rubocop-factory_bot', '~> 2.25'
+  gem 'rubocop-rails', '~> 2.25'
+  gem 'rubocop-rspec', '~> 2.30'
+  gem 'rubocop-rspec_rails', '~> 2.28'
+
   gem 'byebug', '~> 11.1.3'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-remote', require: 'pry-remote'
   # Modularization
   gem 'packwerk', '~> 2.2'
   # Visual representation of components
-  gem 'graphwerk', '~> 1.2.0'
+  gem 'dotenv-rails', '~> 3.1'
   gem 'factory_bot_rails', '~> 6.2'
   gem 'faker', '~> 3.4'
-  gem 'dotenv-rails', '~> 3.1'
+  gem 'graphwerk', '~> 1.2.0'
 end
 
 group :test do
@@ -68,12 +78,13 @@ group :development do
   gem 'web-console', '>= 4.1.0'
   # Display performance information such as SQL time and flame graphs for each request in your browser.
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
-  gem 'rack-mini-profiler', '~> 3.3'
-  gem 'listen', '~> 3.3'
   gem 'letter_opener', '~> 1.4', '>= 1.4.1'
+  gem 'listen', '~> 3.3'
   gem 'mailcatcher'
   gem 'make_menu', '~> 2.1.0'
+  gem 'rack-mini-profiler', '~> 3.3'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+

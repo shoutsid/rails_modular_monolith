@@ -1,0 +1,18 @@
+require:
+  - rubocop-rspec
+  - rubocop-factory_bot
+  - rubocop-rspec
+  - rubocop-rspec_rails
+  - rubocop-rails
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+    - 'components/**/spec/**/*'
+    - 'tmp/**/*'
+    - '.git/**/*'
+    - 'bin/*'
+  TargetRubyVersion: 3.2
+  SuggestExtensions: true
