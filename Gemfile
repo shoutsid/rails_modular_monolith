@@ -52,6 +52,9 @@ group :development, :test do
   gem 'rubocop-rspec', '~> 2.30'
   gem 'rubocop-rspec_rails', '~> 2.28'
 
+  # Static Typing
+  gem 'tapioca', '~> 0.14.3', require: false
+
   gem 'byebug', '~> 11.1.3'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-remote', require: 'pry-remote'
@@ -83,7 +86,13 @@ group :development do
   gem 'mailcatcher'
   gem 'make_menu', '~> 2.1.0'
   gem 'rack-mini-profiler', '~> 3.3'
+
+  # Static Typing
+  gem 'sorbet', '~> 0.5.11414'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+
+# Static Typing
+gem 'sorbet-runtime', '~> 0.5.11414'
