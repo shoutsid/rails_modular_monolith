@@ -14,7 +14,7 @@ gem 'sprockets-rails', '~> 3.4.2'
 # Use Bootstrapp for stylesheets
 gem 'cssbundling-rails', '~> 1.4.0'
 # Transpile app-like JavaScript
-gem 'jsbundling-rails', '~> 1.0.0'
+gem 'jsbundling-rails', '~> 1.3.0'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
