@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Ollama
+  # Consume messages from outbox topic and process them.
   class OutboxConsumer
     EVENTS_MAPPING = {}.freeze
 
@@ -8,7 +9,7 @@ module Ollama
       @payload = payload
     end
 
-    def consume
+    def consume # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       if Ollama::ConsumedMessage.already_processed?(identifier, aggregate)
         Karafka.logger.info "Already processed event: #{pretty_print_event}"
         nil

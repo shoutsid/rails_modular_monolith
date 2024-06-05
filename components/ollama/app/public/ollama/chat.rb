@@ -15,16 +15,18 @@ module Ollama
     # Custom error class raised when message roles are invalid
   end
 
+  # Handles chatting with the AI model
   class Chat
     DEFAULT_MODEL = 'llama3'
 
     # The Chat class handles generating responses using the AI model.
-    attr_reader :client, :conversation, :event_callback
+    attr_writer :event_callback
+    attr_reader :client, :conversation
     attr_accessor :messages, :last_message
 
     # Initializes a new instance of the Chat class.
     #
-    # @param client [Ollama::Controllers::Client | Langchain::LLM::Ollama] the AI client to use for generating responses.
+    # @param client [Ollama::Controllers::Client | Langchain::LLM::Ollama] AI client to use for generating responses.
     # @param messages [Array<Hash>] the messages in the conversation.
     # @param conversation [Ollama::Conversation] the conversation object associated with the chat.
     def initialize(client:, messages:, conversation:)
@@ -34,6 +36,9 @@ module Ollama
       @event_callback = event_callback
     end
 
+    # Event callback to switch between valid clients
+    #
+    # @return [Proc] the callback to be used for event handling.
     def event_callback
       if ollama_controller_client?
         ollama_controller_client_callback
@@ -44,6 +49,16 @@ module Ollama
       end
     end
 
+    # Check to see if the client is of type Ollama::Controllers::Client
+    #
+    # @return [Boolean] true if the client is of type Ollama::Controllers::Client
+    def ollama_controller_client?
+      client.is_a?(Ollama::Controllers::Client)
+    end
+
+    # Event callback used for the Ollama::Controllers::Client
+    #
+    # @return [Proc] the callback to be used for event handling.
     def ollama_controller_client_callback
       lambda do |event, _raw|
         create_event(**event)
@@ -54,6 +69,9 @@ module Ollama
       end
     end
 
+    # Event callback used for the Langchain::LLM::Ollama
+    #
+    # @return [Proc] the callback to be used for event handling.
     def langchain_event_callback
       lambda do |langchain_event|
         event = langchain_event.raw_response
@@ -72,21 +90,13 @@ module Ollama
     def generate(model: DEFAULT_MODEL, prompt: 'hi! please send me a long message')
       before(content: prompt)
       args = { model:, prompt: }
-      if ollama_controller_client?
-        client.generate(args, &event_callback)
-      else
-        client.generate(**args, &event_callback)
-      end
+      ollama_controller_client? ? client.generate(args, &event_callback) : client.generate(**args, &event_callback)
       after
     rescue Ollama::Errors::RequestError, Faraday::ResourceNotFound => e
       raise e unless e.detailed_message.include?('status 404')
 
-      rescue_from_404(e, args)
+      rescue_from(e, args)
       retry
-    end
-
-    def ollama_controller_client?
-      client.is_a?(Ollama::Controllers::Client)
     end
 
     # Chats with the AI model using the given message.
@@ -96,16 +106,12 @@ module Ollama
     def chat(model: DEFAULT_MODEL, message: 'hi! please send me a long message')
       before(content: message)
       args = { model:, messages: }
-      if ollama_controller_client?
-        client.chat(args, &event_callback)
-      else
-        client.chat(**args, &event_callback)
-      end
+      ollama_controller_client? ? client.chat(args, &event_callback) : client.chat(**args, &event_callback)
       after
     rescue Ollama::Errors::RequestError, Faraday::ResourceNotFound => e
       raise e unless e.detailed_message.include?('status 404')
 
-      rescue_from_404(e, args)
+      rescue_from(e, args)
       retry
     end
 
@@ -118,7 +124,7 @@ module Ollama
     end
 
     # Processes the response from the AI model after it has been generated.
-    def after
+    def after # rubocop:disable Metrics/CyclomaticComplexity
       complete_response = last_message&.events&.pluck(:data)&.map do |e|
         content = e.dig('message', 'content')
         content || (e['response'] || '')
@@ -140,8 +146,8 @@ module Ollama
       # TODO: Use ENV here for client url
       return if Rails.env.test?
 
-      _client = Ollama.new(credentials: { address: 'http://ollama:11434' }, options: { server_sent_events: true })
-      _client.pull({ name: model }) do |event, _raw|
+      clt = Ollama.new(credentials: { address: 'http://ollama:11434' }, options: { server_sent_events: true })
+      clt.pull({ name: model }) do |event, _raw|
         raise InvalidModelError if !event['error'].nil? && event['error'].include?('file does not exist')
 
         print '.'
@@ -160,8 +166,8 @@ module Ollama
     # Rescues from a 404 error by pulling the 'llama3' model and regenerating the response.
     #
     # @param e [Ollama::Errors::RequestError | Faraday::ResourceNotFound] the 404 error that occurred.
-    def rescue_from_404(e, args)
-      Rails.logger.warn e
+    def rescue_from(exception, args)
+      Rails.logger.warn exception
       Rails.logger.warn "Attempt to pull #{args[:model]} and regenerate."
       messages.pop
       last_message.destroy

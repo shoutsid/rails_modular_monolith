@@ -17,6 +17,7 @@
 #  index_ollama_consumed_messages_status            (status)
 #
 module Ollama
+  # consumed messages
   class ConsumedMessage < ApplicationRecord
     enum status: {
       processing: 0,

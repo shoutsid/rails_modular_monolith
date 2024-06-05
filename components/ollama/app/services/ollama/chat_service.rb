@@ -5,14 +5,16 @@ module Ollama
     # Custom error class raised when messages are invalid
   end
 
+  # The ChatService class is used to chat to Ollama via the API
   class ChatService
     attr_reader :conversation_id, :event_payload, :client, :model
-    attr_accessor :messages, :last_message
+    attr_accessor :last_message
+    attr_writer :messages
 
     # Initializes a new instance of the ChatService class.
     #
     # @param event_payload [Hash | HashWithIndifferentAccess] containing the event payload data.
-    def initialize(event_payload)
+    def initialize(event_payload) # rubocop:disable Metrics/AbcSize
       @event_payload = event_payload.with_indifferent_access
       @conversation_id = @event_payload['conversation_id'] unless @event_payload['conversation_id'].nil?
       @_messages = @event_payload['messages'] unless @event_payload['messages'].nil?
@@ -41,7 +43,8 @@ module Ollama
 
     attr_reader :ollama_client
 
-    # Retrieves the conversation associated with the current instance. If the conversation_id is present and is an integer,
+    # Retrieves the conversation associated with the current instance.
+    # If the conversation_id is present and is an integer,
     # it will find the conversation with that ID. Otherwise, it creates a new conversation.
     #
     # @return [Ollama::Conversation] the conversation associated with the current instance.
@@ -50,7 +53,8 @@ module Ollama
       @conversation ||= (is_int && Ollama::Conversation.find(conversation_id)) || Ollama::Conversation.create!
     end
 
-    # Retrieves the messages associated with the current instance. Validates the structure of the messages and raises an error
+    # Retrieves the messages associated with the current instance.
+    # Validates the structure of the messages and raises an error
     # if the messages are not in the correct format.
     #
     # @return [Array<Hash>] the messages associated with the current instance.
@@ -61,14 +65,15 @@ module Ollama
       @messages = @_messages || []
     end
 
-    # Validates the structure of the provided messages. Raises an error if the messages are not an array or do not have the correct structure.
+    # Validates the structure of the provided messages.
+    # Raises an error if the messages are not an array or do not have the correct structure.
     #
     # @param messages [Array<Hash>] the messages to validate.
     # @raise [Ollama::MessagesInvalidError] if the messages are not in the correct format.
-    def validate!(_messages)
-      raise(Ollama::MessagesInvalidError, 'messages provided should be an Array') unless messages_is_array?(_messages)
+    def validate!(msgs)
+      raise(Ollama::MessagesInvalidError, 'messages provided should be an Array') unless messages_is_array?(msgs)
 
-      unless messages_valid_structure?(_messages)
+      unless messages_valid_structure?(msgs)
         raise(Ollama::MessagesInvalidError,
               "messages should be in the valid structure.For example: => [{role: 'user', content: 'content here'}]")
       end
@@ -80,25 +85,26 @@ module Ollama
     #
     # @param messages [Object] the messages to check.
     # @return [Boolean] true if messages are an array, false otherwise.
-    def messages_is_array?(_messages)
-      !!_messages && _messages.is_a?(Array)
+    def messages_is_array?(msgs)
+      !!msgs && msgs.is_a?(Array)
     end
 
     # Checks if the provided messages are an empty array.
     #
     # @param messages [Array<Hash>] the messages to check.
     # @return [Boolean] true if messages are an empty array, false otherwise.
-    def messages_empty?(_messages)
-      messages_is_array?(_messages) && _messages.empty?
+    def messages_empty?(msgs)
+      messages_is_array?(msgs) && msgs.empty?
     end
 
-    # Checks if the provided messages have a valid structure. Each message should be a Hash or HashWithIndifferentAccess containing 'role' and 'content' keys.
+    # Checks if the provided messages have a valid structure.
+    # Each message should be a Hash or HashWithIndifferentAccess containing 'role' and 'content' keys.
     #
     # @param messages [Array<Hash>] the messages to check.
     # @return [Boolean] true if messages have a valid structure, false otherwise.
-    def messages_valid_structure?(_messages)
-      _messages.all? { |e| e.is_a?(Hash) || e.is_a?(ActiveSupport::HashWithIndifferentAccess) } &&
-        _messages.all? { |e| !!e['role'] && !!e['content'] }
+    def messages_valid_structure?(msgs)
+      msgs.all? { |m| m.is_a?(Hash) || m.is_a?(ActiveSupport::HashWithIndifferentAccess) } &&
+        msgs.all? { |me| !!me['role'] && !!me['content'] }
     end
   end
 end

@@ -16,6 +16,7 @@
 #  index_ollama_messages_on_ollama_conversation_id  (ollama_conversation_id)
 #
 module Ollama
+  # Message model.
   class Message < ApplicationRecord
     include TransactionalOutbox::Outboxable
     has_many :events, foreign_key: :ollama_message_id

@@ -19,6 +19,7 @@
 #  index_ollama_outboxes_on_identifier            (identifier) UNIQUE
 #
 module Ollama
+  # Outbox model
   class Outbox < ApplicationRecord
     validates_presence_of :identifier, :payload, :aggregate, :event
   end

@@ -17,6 +17,7 @@
 #  index_ollama_chunks_on_updated_at  (updated_at)
 #
 module Ollama
+  # A chunk of text that is being processed by Ollama.
   class Chunk < ApplicationRecord
     include TransactionalOutbox::Outboxable
 

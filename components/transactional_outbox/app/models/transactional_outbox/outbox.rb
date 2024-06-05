@@ -18,6 +18,7 @@
 #  index_transactional_outbox_outboxes_on_identifier  (identifier)
 #
 module TransactionalOutbox
+  # Outbox model
   class Outbox < ApplicationRecord
     validates_presence_of :identifier, :payload, :aggregate, :aggregate_identifier, :event
   end

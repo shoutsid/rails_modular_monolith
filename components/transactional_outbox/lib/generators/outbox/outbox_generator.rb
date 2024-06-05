@@ -2,11 +2,15 @@
 
 require 'rails/generators/active_record'
 module Outbox
+  # Generates all outboxable parts for a given component
   class OutboxGenerator < ActiveRecord::Generators::Base
     source_root File.expand_path('templates', __dir__)
 
     class_option :root_components_path, type: :string, default: Rails.root.to_s
 
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
+    # Create migration and use templatable models for the component given
     def create_migration_files
       migration_path = "#{options['root_components_path']}/db/#{name}_migrate"
       migration_template(
@@ -35,6 +39,8 @@ module Outbox
         "#{options['root_components_path']}/components/#{name}/app/consumers/#{name}/outbox_consumer.rb"
       )
     end
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize
 
     def migration_version
       "[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]"

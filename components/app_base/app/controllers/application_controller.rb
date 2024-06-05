@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Application controller
 class ApplicationController < ActionController::Base
   def current_user
     raise 'Never call this method. Call current_user_identifier instead'

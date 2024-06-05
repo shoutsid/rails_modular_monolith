@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module TransactionalOutbox
+  # Outboxable
   module Outboxable
     extend ActiveSupport::Concern
 
@@ -42,7 +43,7 @@ module TransactionalOutbox
 
     private
 
-    def create_outbox!(action, event_name)
+    def create_outbox!(action, event_name) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
       unless self.class.module_parent.const_defined?('OUTBOX_MODEL')
         *namespace, _ = self.class.name.underscore.upcase.split('/')
         namespace.reverse.join('.')
@@ -69,7 +70,7 @@ module TransactionalOutbox
       outbox.save!
     end
 
-    def payload(action)
+    def payload(action) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       payload = { before: nil, after: nil }
       case action
       when :create

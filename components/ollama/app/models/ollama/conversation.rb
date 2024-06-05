@@ -9,6 +9,7 @@
 #  updated_at :datetime         not null
 #
 module Ollama
+  # Conversation model
   class Conversation < ApplicationRecord
     include TransactionalOutbox::Outboxable
     has_many :events, foreign_key: :ollama_conversation_id, dependent: :destroy

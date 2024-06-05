@@ -71,11 +71,11 @@ RSpec.describe Ollama::Chat do
     end
   end
 
-  describe '#rescue_from_404' do
-    it 'rescues from a 404 error by pulling the llama3 model and regenerating the response' do
+  describe '#rescue_from' do
+    it 'rescues from a error by pulling the llama3 model and regenerating the response' do
       expect(subject).to receive(:pull_model).with(hash_including(model: 'llama3'))
       expect(subject).to receive_message_chain(:last_message, :destroy)
-      subject.send(:rescue_from_404, instance_double(Ollama::Errors::RequestError, payload: { model: 'llama3' }),
+      subject.send(:rescue_from, instance_double(Ollama::Errors::RequestError, payload: { model: 'llama3' }),
                    { model: 'llama3' })
     end
   end

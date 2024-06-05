@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
+# The configuration for the transactional outbox
 module TransactionalOutbox
   class << self
     attr_accessor :configuration
 
-    def configuration
+    def configuration # rubocop:disable Lint/DuplicateMethods
       @configuration ||= TransactionalOutbox::Configuration.new
     end
 
@@ -17,6 +18,7 @@ module TransactionalOutbox
     end
   end
 
+  # The configuration for the transactional outbox
   class Configuration
     attr_accessor :outbox_mapping
 

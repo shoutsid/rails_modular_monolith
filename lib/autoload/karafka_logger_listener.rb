@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Logs Karafka worker process events
 class KarafkaLoggerListener
   # Log levels that we use in this particular listener
   USED_LOG_LEVELS = %i[
@@ -10,7 +11,7 @@ class KarafkaLoggerListener
     fatal
   ].freeze
 
-  # Prints info about the fact that a given job has started
+  # Prints info about the fact that a given job has starte
   #
   # @param event [Dry::Events::Event] event details including payload
   def on_worker_process(event)
@@ -90,6 +91,8 @@ class KarafkaLoggerListener
   # handler for all of them to simplify error instrumentation.
   # @param event [Dry::Events::Event] event details including payload
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
   def on_error_occurred(event)
     type = event[:type]
     error = event[:error]
@@ -128,6 +131,8 @@ class KarafkaLoggerListener
     end
   end
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   USED_LOG_LEVELS.each do |log_level|
     define_method log_level do |*args|
