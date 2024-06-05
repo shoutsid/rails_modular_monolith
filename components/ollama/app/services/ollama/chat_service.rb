@@ -68,7 +68,7 @@ module Ollama
     # Validates the structure of the provided messages.
     # Raises an error if the messages are not an array or do not have the correct structure.
     #
-    # @param messages [Array<Hash>] the messages to validate.
+    # @param msgs [Array<Hash>] the messages to validate.
     # @raise [Ollama::MessagesInvalidError] if the messages are not in the correct format.
     def validate!(msgs)
       raise(Ollama::MessagesInvalidError, 'messages provided should be an Array') unless messages_is_array?(msgs)
@@ -83,7 +83,7 @@ module Ollama
 
     # Checks if the provided messages are an array.
     #
-    # @param messages [Object] the messages to check.
+    # @param msgs [Object] the messages to check.
     # @return [Boolean] true if messages are an array, false otherwise.
     def messages_is_array?(msgs)
       !!msgs && msgs.is_a?(Array)
@@ -91,7 +91,7 @@ module Ollama
 
     # Checks if the provided messages are an empty array.
     #
-    # @param messages [Array<Hash>] the messages to check.
+    # @param msgs [Array<Hash>] the messages to check.
     # @return [Boolean] true if messages are an empty array, false otherwise.
     def messages_empty?(msgs)
       messages_is_array?(msgs) && msgs.empty?
@@ -100,7 +100,7 @@ module Ollama
     # Checks if the provided messages have a valid structure.
     # Each message should be a Hash or HashWithIndifferentAccess containing 'role' and 'content' keys.
     #
-    # @param messages [Array<Hash>] the messages to check.
+    # @param msgs [Array<Hash>] the messages to check.
     # @return [Boolean] true if messages have a valid structure, false otherwise.
     def messages_valid_structure?(msgs)
       msgs.all? { |m| m.is_a?(Hash) || m.is_a?(ActiveSupport::HashWithIndifferentAccess) } &&

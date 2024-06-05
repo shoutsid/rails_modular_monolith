@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    abbrev (0.1.2)
     actioncable (7.1.3.4)
       actionpack (= 7.1.3.4)
       activesupport (= 7.1.3.4)
@@ -101,6 +102,8 @@ GEM
     childprocess (5.0.0)
     coderay (1.1.3)
     colorize (1.1.0)
+    commander (4.6.0)
+      highline (~> 2.0.0)
     concurrent-ruby (1.3.1)
     connection_pool (2.4.1)
     constant_resolver (0.2.0)
@@ -153,6 +156,7 @@ GEM
       packwerk
       ruby-graphviz
       sorbet-runtime
+    highline (2.0.3)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
@@ -272,6 +276,11 @@ GEM
       sorbet-runtime (>= 0.5.9914)
       zeitwerk (>= 2.6.1)
     parallel (1.24.0)
+    parlour (5.0.0)
+      commander (~> 4.5)
+      parser
+      rainbow (~> 3.0)
+      sorbet-runtime (>= 0.5)
     parser (3.3.2.0)
       ast (~> 2.4.1)
       racc
@@ -347,6 +356,8 @@ GEM
     rbi (0.1.13)
       prism (>= 0.18.0, < 1.0.0)
       sorbet-runtime (>= 0.5.9204)
+    rbs (3.4.4)
+      abbrev
     rdoc (6.7.0)
       psych (>= 4.0.0)
     regexp_parser (2.9.2)
@@ -427,6 +438,12 @@ GEM
     sorbet-static-and-runtime (0.5.11414)
       sorbet (= 0.5.11414)
       sorbet-runtime (= 0.5.11414)
+    sord (6.0.0)
+      commander (~> 4.5)
+      parlour (~> 5.0)
+      rbs (~> 3.0)
+      sorbet-runtime
+      yard
     spoom (1.3.2)
       erubi (>= 1.10.0)
       prism (>= 0.19.0)
@@ -545,6 +562,7 @@ DEPENDENCIES
   rubocop-rspec_rails (~> 2.28)
   sorbet (~> 0.5.11414)
   sorbet-runtime (~> 0.5.11414)
+  sord (~> 6.0)
   sprockets-rails (~> 3.4.2)
   super_diff (~> 0.9.0)
   tapioca (~> 0.14.3)

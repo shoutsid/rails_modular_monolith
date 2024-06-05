@@ -96,3 +96,5 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Static Typing
 gem 'sorbet-runtime', '~> 0.5.11414'
+
+gem "sord", "~> 6.0"

@@ -165,7 +165,7 @@ module Ollama
 
     # Rescues from a 404 error by pulling the 'llama3' model and regenerating the response.
     #
-    # @param e [Ollama::Errors::RequestError | Faraday::ResourceNotFound] the 404 error that occurred.
+    # @param exception [Ollama::Errors::RequestError | Faraday::ResourceNotFound] the 404 error that occurred.
     def rescue_from(exception, args)
       Rails.logger.warn exception
       Rails.logger.warn "Attempt to pull #{args[:model]} and regenerate."
