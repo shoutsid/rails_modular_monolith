@@ -462,7 +462,7 @@ GEM
     sqlite3 (1.7.3-x86_64-linux)
     stringio (3.1.0)
     strscan (3.1.0)
-    super_diff (0.9.0)
+    super_diff (0.12.1)
       attr_extras (>= 6.2.4)
       diff-lcs
       patience_diff
@@ -564,7 +564,7 @@ DEPENDENCIES
   sorbet-runtime (~> 0.5.11414)
   sord (~> 6.0)
   sprockets-rails (~> 3.4.2)
-  super_diff (~> 0.9.0)
+  super_diff (~> 0.12.1)
   tapioca (~> 0.14.3)
   tiktoken_ruby
   tzinfo-data

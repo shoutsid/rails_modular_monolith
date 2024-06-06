@@ -71,7 +71,7 @@ group :test do
   gem 'karafka-testing'
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
   gem 'rspec-rails', '~> 6.1'
-  gem 'super_diff', '~> 0.9.0'
+  gem 'super_diff', '~> 0.12.1'
 end
 
 group :development do
