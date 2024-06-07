@@ -12,7 +12,7 @@ gem 'pg', '~> 1.1'
 # Use Puma as the app server
 gem 'puma', '~> 6.4'
 # Compile and serve assets
-gem 'sprockets-rails', '~> 3.4.2'
+gem 'sprockets-rails', '~> 3.5.0'
 # Use Bootstrapp for stylesheets
 gem 'cssbundling-rails', '~> 1.4.0'
 # Transpile app-like JavaScript
