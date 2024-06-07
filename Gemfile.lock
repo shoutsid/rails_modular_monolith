@@ -227,8 +227,6 @@ GEM
       tty-screen (~> 0.8.2)
     marcel (1.0.4)
     matrix (0.4.2)
-    mechanize (1.0.0)
-      nokogiri (>= 1.2.1)
     method_source (1.1.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
@@ -486,8 +484,6 @@ GEM
     uri (0.13.0)
     warden (1.2.9)
       rack (>= 2.0.9)
-    watchman (0.1.1)
-      mechanize (= 1.0.0)
     waterdrop (2.7.2)
       karafka-core (>= 2.4.0, < 3.0.0)
       karafka-rdkafka (>= 0.15.1)
@@ -562,7 +558,6 @@ DEPENDENCIES
   tapioca (~> 0.14.3)
   tiktoken_ruby
   tzinfo-data
-  watchman (~> 0.1.1)
   waterdrop
   web-console (>= 4.1.0)
 

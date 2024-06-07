@@ -90,12 +90,11 @@ group :development do
   # Static Typing
   gem 'sorbet', '~> 0.5.11418'
 
-  # Requires old version of parlour. This is a temporary fix until sorbet supports ruby 3.0
-  # https://github.com/Shopify/parlour/issues/157
+  # Requires old version of parlour :(
   # gem 'sord', '~> 6.0'
   # At the time of writing palour is dependent on 6.0
   # gem 'parlour', '~> 9.0'
-  gem 'watchman', '~> 0.1.1'
+  # gem 'watchman', '~> 0.1.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
