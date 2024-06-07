@@ -88,8 +88,14 @@ group :development do
   gem 'rack-mini-profiler', '~> 3.3'
 
   # Static Typing
-  gem 'sorbet', '~> 0.5.11415'
-  gem 'sord', '~> 6.0'
+  gem 'sorbet', '~> 0.5.11418'
+
+  # Requires old version of parlour. This is a temporary fix until sorbet supports ruby 3.0
+  # https://github.com/Shopify/parlour/issues/157
+  # gem 'sord', '~> 6.0'
+  # At the time of writing palour is dependent on 6.0
+  # gem 'parlour', '~> 9.0'
+  gem 'watchman', '~> 0.1.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -97,3 +103,4 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Static Typing
 gem 'sorbet-runtime', '~> 0.5.11418'
+gem 'iconv', '~> 1.0'

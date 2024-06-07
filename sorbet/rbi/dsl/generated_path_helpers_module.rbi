@@ -10,10 +10,22 @@ module GeneratedPathHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
+  def edit_ollama_chat_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def new_ollama_chat_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def new_rails_conductor_inbound_email_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def new_rails_conductor_inbound_email_source_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def ollama_chat_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def ollama_chats_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def rails_blob_path(*args); end
