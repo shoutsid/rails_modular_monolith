@@ -4,9 +4,11 @@
 #
 # Table name: ollama_conversations
 #
-#  id         :bigint           not null, primary key
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :bigint           not null, primary key
+#  description :text
+#  title       :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 module Ollama
   # Conversation model
