@@ -88,7 +88,7 @@ group :development do
   gem 'rack-mini-profiler', '~> 3.3'
 
   # Static Typing
-  gem 'sorbet', '~> 0.5.11414'
+  gem 'sorbet', '~> 0.5.11415'
   gem 'sord', '~> 6.0'
 end
 
