@@ -2,13 +2,15 @@
 
 # Application controller
 class ApplicationController < ActionController::Base
-  def current_user
-    raise 'Never call this method. Call current_user_identifier instead'
-  end
-
-  def authenticate_user!
-    raise 'Not Implemented Error. Should be implemented in each component ApplicationController.'
+  rescue_from ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid do |exception|
+    render_error(exception)
   end
 
   def home; end
+
+  protected
+
+  def render_error(exception)
+    render json: { errors: { base: [exception.message] } }, status: :unprocessable_entity
+  end
 end

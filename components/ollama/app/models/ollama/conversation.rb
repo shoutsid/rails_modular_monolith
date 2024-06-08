@@ -14,6 +14,9 @@ module Ollama
   # Conversation model
   class Conversation < ApplicationRecord
     include TransactionalOutbox::Outboxable
+    validates_presence_of :title, on: :update
+    validates_presence_of :description, on: :update
+
     has_many :events, foreign_key: :ollama_conversation_id, dependent: :destroy
     has_many :messages, foreign_key: :ollama_conversation_id, dependent: :destroy
   end

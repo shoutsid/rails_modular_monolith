@@ -3,11 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe Ollama::Chat do
+  subject { described_class.new(client:, messages:, conversation:) }
+
   let(:client) { instance_double(Ollama::Controllers::Client) }
-  let(:conversation) { FactoryBot.create(:ollama_conversation) }
+  let(:conversation) { create(:ollama_conversation) }
   let(:messages) { [instance_double(Hash)] }
 
-  subject { Ollama::Chat.new(client:, messages:, conversation:) }
   before do
     allow(client).to receive(:is_a?).with(any_args).and_return(true)
   end
@@ -53,7 +54,7 @@ RSpec.describe Ollama::Chat do
 
   describe '#pull_model' do
     it 'pulls the model passed from the AI service' do
-      expect(client).to_not receive(:pull).with(hash_including(name: 'llama3'))
+      expect(client).not_to receive(:pull).with(hash_including(name: 'llama3'))
       subject.pull_model
 
       allow(Rails).to receive_message_chain(:env, :test?).and_return(true)

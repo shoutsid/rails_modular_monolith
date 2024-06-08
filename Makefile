@@ -24,12 +24,19 @@ build: ## Rebuild container services with no cache
 
 rebuild: ## Rebuild & start container services with no cache
 	make down || true
-	make clearvolumes || true
+	make clear_artifacts || true
 	@echo "\n\033[93m--> Building containers and services with no cache....\033[0m\n"
 	docker compose -f $(docker_compose_file) build --no-cache
 	make up || true
 
-clearvolumes: ## Clear volumes (requires containers to not be using the volume)
-	@echo "\n\033[93m--> Clearing volumes....\033[0m\n"
+clear_artifacts:
+	@echo "\n\033[93m--> Clearing artifacts....\033[0m\n"]
+	rm -rf tmp/pids
+
+clear_db_volume: ## Clear DB Volume
+	@echo "\n\033[93m--> Clearing DB volume....\033[0m\n"
 	docker volume rm $(db_volume) || true
+
+clear_ollama_volume: ## Clear Ollama Volume
+	@echo "\n\033[93m--> Clearing Ollama volume....\033[0m\n"
 	docker volume rm $(ollama_volume) || true

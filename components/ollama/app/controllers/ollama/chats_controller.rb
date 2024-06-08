@@ -18,11 +18,12 @@ module Ollama
     end
 
     def create
-      @conversation = Conversation.new(conversation_params)
-      if @conversation.save
-        render json: { conversation: @conversation, message: 'Chat was successfully created.' }, status: :created
-      else
-        render json: { errors: @conversation.errors }, status: :unprocessable_entity
+      Conversation.transaction do
+        conversation = Conversation.create!(conversation_params.except(:messages, :model))
+        payload = { conversation_id: conversation.id, messages: conversation_params.fetch('messages', []),
+                    model: conversation_params.fetch('model', 'llama3') }
+        chat_service = Ollama::ChatService.new(payload)
+        render json: chat_service.call.to_json, status: :created
       end
     end
 
@@ -47,7 +48,7 @@ module Ollama
     private
 
     def conversation_params
-      params.require(:conversation).permit(:title, :description, messages: { role: [], content: [] })
+      params.fetch(:conversation, {}).permit(:title, :description, :model, messages: %i[role content])
     end
   end
 end

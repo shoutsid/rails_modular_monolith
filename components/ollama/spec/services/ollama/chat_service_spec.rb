@@ -3,11 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe Ollama::ChatService do
+  subject { described_class.new(event_payload) }
+
   let(:event_payload) do
     { conversation_id: 1, messages: [{ role: 'user', content: 'Hello' }], client: 'ollama_controller' }
   end
   let(:client) { class_double(Ollama) }
-  let(:conversation) { FactoryBot.create(:ollama_conversation) }
+  let(:conversation) { create(:ollama_conversation) }
 
   before do
     allow(Ollama).to receive(:new).and_return(client)
@@ -15,8 +17,6 @@ RSpec.describe Ollama::ChatService do
     allow(Ollama::Conversation).to receive(:find).and_return(conversation)
     allow(Ollama::Conversation).to receive(:create!)
   end
-
-  subject { Ollama::ChatService.new(event_payload) }
 
   describe '#initialize' do
     it 'initializes with the correct attributes' do

@@ -53,7 +53,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
           it 'adds the errors to the model' do
             expect { subject }.to change {
                                     fake_model_instance.errors.messages
-                                  }.from({}).to({ "outbox.event": ["can't be blank"] })
+                                  }.from({}).to({ 'outbox.event': ["can't be blank"] })
           end
         end
 
@@ -172,7 +172,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
 
           it 'adds the errors to the model' do
             expect { subject }.to raise_error(ActiveRecord::RecordInvalid)
-              .and change { fake_model_instance.errors.messages }.from({}).to({ "outbox.event": ["can't be blank"] })
+              .and change { fake_model_instance.errors.messages }.from({}).to({ 'outbox.event': ["can't be blank"] })
           end
         end
 
@@ -365,7 +365,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
           it 'adds the errors to the model' do
             expect { subject }.to change {
                                     fake_model_instance.errors.messages
-                                  }.from({}).to({ "outbox.event": ["can't be blank"] })
+                                  }.from({}).to({ 'outbox.event': ["can't be blank"] })
           end
         end
 
@@ -488,7 +488,7 @@ RSpec.describe TransactionalOutbox::Outboxable do
 
           it 'adds the errors to the model' do
             expect { subject }.to raise_error(ActiveRecord::RecordInvalid)
-              .and change { fake_model_instance.errors.messages }.from({}).to({ "outbox.event": ["can't be blank"] })
+              .and change { fake_model_instance.errors.messages }.from({}).to({ 'outbox.event': ["can't be blank"] })
           end
         end
 

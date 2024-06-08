@@ -5,7 +5,7 @@ RSpec.configure do |config|
     metadata[:transactional_outbox] = true
   end
 
-  config.before :each, transactional_outbox: true do
+  config.before :each, :transactional_outbox do
     ActiveRecord::Base.connection.create_table :custom_outbox_test_models do |t|
       t.uuid :identifier, null: false
     end
