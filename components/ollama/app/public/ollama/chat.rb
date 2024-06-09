@@ -122,7 +122,7 @@ module Ollama
       self.last_message = Ollama::Message.new(
         role: 'user', content:, conversation:
       )
-      last_message.save!(outbox_event: Ollama::Events::START_CHAT)
+      last_message.save!(outbox_event: Ollama::Events::CHAT_STARTED)
       messages << { role: 'user', content: }
     end
 
@@ -132,7 +132,7 @@ module Ollama
         e.dig('message', 'content') || (e['response'] || '')
       end&.join
       self.last_message = Ollama::Message.new(role: 'assistant', content: complete_response, conversation:)
-      last_message.save!(outbox_event: Ollama::Events::STOP_CHAT)
+      last_message.save!(outbox_event: Ollama::Events::CHAT_STOPPED)
       messages << { role: 'assistant', content: complete_response }
     end
 
