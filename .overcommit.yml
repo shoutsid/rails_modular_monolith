@@ -20,3 +20,8 @@ PreCommit:
    enabled: true
    on_warn: fail # Treat all warnings as failures
    problem_on_unmodified_line: ignore # run RuboCop only on modified code
+ SorbetTypeCheck:
+   enabled: true
+   on_warn: fail
+   problem_on_unmodified_line: ignore
+   command: ['bundle', 'exec', 'srb', 'tc']
