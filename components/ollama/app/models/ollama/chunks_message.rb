@@ -4,8 +4,9 @@
 #
 # Table name: ollama_chunks_messages
 #
-#  ollama_chunk_id   :bigint           not null
-#  ollama_message_id :bigint           not null
+#  id                :bigint           not null, primary key
+#  ollama_chunk_id   :uuid             not null
+#  ollama_message_id :integer          not null
 #
 # Indexes
 #

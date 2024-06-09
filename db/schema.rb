@@ -29,9 +29,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_07_212050) do
     t.index ["updated_at"], name: "index_ollama_chunks_on_updated_at"
   end
 
-  create_table "ollama_chunks_messages", id: false, force: :cascade do |t|
-    t.bigint "ollama_chunk_id", null: false
-    t.bigint "ollama_message_id", null: false
+  create_table "ollama_chunks_messages", force: :cascade do |t|
+    t.uuid "ollama_chunk_id", null: false
+    t.integer "ollama_message_id", null: false
     t.index ["ollama_chunk_id", "ollama_message_id"], name: "index_chunk_messages_on_chunk_id_and_message_id"
     t.index ["ollama_message_id", "ollama_chunk_id"], name: "index_chunk_messages_on_message_id_and_chunk_id"
   end

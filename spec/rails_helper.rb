@@ -82,6 +82,7 @@ RSpec.configure do |config|
   FactoryBot.automatically_define_enum_traits = true
 
   config.include_context 'with karafka consumer helpers', type: :request
+  config.include_context 'when using component specific Outbox model', type: :model
 
   config.before type: :request do
     TransactionalOutbox.configuration.outbox_mapping.each_value do |outbox_klass|
@@ -98,5 +99,12 @@ RSpec.configure do |config|
         end
       end
     end
+  end
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
   end
 end

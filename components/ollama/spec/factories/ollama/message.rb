@@ -5,6 +5,6 @@ FactoryBot.define do
     # https://thoughtbot.github.io/factory_bot/traits/enum.html
     traits_for_enum(:role)
     content { Faker::Lorem.paragraphs(number: 2) }
-    conversation
+    association(:conversation, factory: :ollama_conversation)
   end
 end

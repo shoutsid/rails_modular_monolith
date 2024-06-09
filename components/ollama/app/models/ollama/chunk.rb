@@ -33,7 +33,6 @@ module Ollama
     validates :token_count, presence: true
 
     before_validation :set_token_count, on: :create
-    after_create :sync_embedding
 
     def nearest
       nearest_neighbors(:embedding, distance: :inner_product)
@@ -42,10 +41,6 @@ module Ollama
     # Set the known Token count it would of been with GPT-4
     def set_token_count
       self.token_count = Tiktoken.encoding_for_model('gpt-4').encode(data).length
-    end
-
-    def sync_embedding
-      SyncEmbeddingJob.perform_later(id)
     end
   end
 end

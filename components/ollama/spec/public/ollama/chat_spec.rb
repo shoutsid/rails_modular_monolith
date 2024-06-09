@@ -48,12 +48,12 @@ RSpec.describe Ollama::Chat do
   describe '#after' do
     it 'processes the response from the AI model after it has been generated' do
       allow(subject).to receive_message_chain(:last_message, :events, :pluck, :map,
-                                               :join).and_return('Healthy response.')
+                                              :join).and_return('Healthy response.')
       response_message = instance_double(Ollama::Message)
       expect(Ollama::Message).to receive(:new).and_return(response_message)
       expect(subject).to receive_message_chain(:last_message, :save!).with(
         hash_including(outbox_event: Ollama::Events::CHAT_STOPPED)
-       )
+      )
       subject.after
     end
   end

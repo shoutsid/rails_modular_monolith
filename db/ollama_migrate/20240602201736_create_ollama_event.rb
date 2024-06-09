@@ -27,7 +27,9 @@ class CreateOllamaEvent < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    create_join_table :ollama_chunks, :ollama_messages do |t|
+    create_table :ollama_chunks_messages do |t|
+      t.uuid :ollama_chunk_id, null: false
+      t.integer :ollama_message_id, null: false
       t.index [:ollama_chunk_id, :ollama_message_id], name: 'index_chunk_messages_on_chunk_id_and_message_id'
       t.index [:ollama_message_id, :ollama_chunk_id], name: 'index_chunk_messages_on_message_id_and_chunk_id'
     end

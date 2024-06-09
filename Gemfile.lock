@@ -419,6 +419,8 @@ GEM
       rexml
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
+    shoulda-matchers (6.2.0)
+      activesupport (>= 5.2.0)
     sinatra (3.2.0)
       mustermann (~> 3.0)
       rack (~> 2.2, >= 2.2.4)
@@ -557,6 +559,7 @@ DEPENDENCIES
   rubocop-rake (~> 0.6.0)
   rubocop-rspec (~> 2.30)
   rubocop-rspec_rails (~> 2.28)
+  shoulda-matchers (~> 6.2)
   sorbet (~> 0.5.11418)
   sorbet-runtime (~> 0.5.11418)
   sprockets-rails (~> 3.5.0)

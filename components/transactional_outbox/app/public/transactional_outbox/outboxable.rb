@@ -16,7 +16,10 @@ module TransactionalOutbox
       { create: 'CREATED', update: 'UPDATED', destroy: 'DESTROYED' }.each do |key, value|
         const_name = "#{klass}_#{value}"
 
+        # Allow override of the event name
         unless module_parent::Events.const_defined?(const_name)
+          # Set the event name to the constant name with namespacing trailing.
+          # For example MESSAGE_CREATED = 'MESSAGE_CREATED.OLLAMA'
           module_parent::Events.const_set(const_name, "#{const_name}#{namespace.blank? ? '' : '.'}#{namespace}")
         end
 

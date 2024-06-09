@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem sprockets-rails`.
 
 
-# source://sprockets-rails//lib/sprockets/railtie.rb#17
+# source://sprockets-rails//lib/sprockets/railtie.rb#18
 module Rails
   class << self
     # source://railties/7.1.3.4/lib/rails.rb#42
@@ -76,7 +76,7 @@ module Rails
   end
 end
 
-# source://sprockets-rails//lib/sprockets/railtie.rb#18
+# source://sprockets-rails//lib/sprockets/railtie.rb#19
 class Rails::Application < ::Rails::Engine
   # source://railties/7.1.3.4/lib/rails/application.rb#109
   def initialize(initial_variable_values = T.unsafe(nil), &block); end
@@ -86,27 +86,27 @@ class Rails::Application < ::Rails::Engine
   #
   # @return [Boolean]
   #
-  # source://sprockets-rails//lib/sprockets/railtie.rb#37
+  # source://sprockets-rails//lib/sprockets/railtie.rb#38
   def asset_precompiled?(logical_path); end
 
   # Returns Sprockets::Environment for app config.
   #
-  # source://sprockets-rails//lib/sprockets/railtie.rb#30
+  # source://sprockets-rails//lib/sprockets/railtie.rb#31
   def assets; end
 
   # Returns Sprockets::Environment for app config.
   #
-  # source://sprockets-rails//lib/sprockets/railtie.rb#30
+  # source://sprockets-rails//lib/sprockets/railtie.rb#31
   def assets=(_arg0); end
 
   # Returns Sprockets::Manifest for app config.
   #
-  # source://sprockets-rails//lib/sprockets/railtie.rb#33
+  # source://sprockets-rails//lib/sprockets/railtie.rb#34
   def assets_manifest; end
 
   # Returns Sprockets::Manifest for app config.
   #
-  # source://sprockets-rails//lib/sprockets/railtie.rb#33
+  # source://sprockets-rails//lib/sprockets/railtie.rb#34
   def assets_manifest=(_arg0); end
 
   # source://railties/7.1.3.4/lib/rails/application.rb#102
@@ -194,7 +194,7 @@ class Rails::Application < ::Rails::Engine
   # boot time, but ensure we cache the list so we don't recompute it for each
   # request or test case.
   #
-  # source://sprockets-rails//lib/sprockets/railtie.rb#51
+  # source://sprockets-rails//lib/sprockets/railtie.rb#52
   def precompiled_assets(clear_cache = T.unsafe(nil)); end
 
   # source://railties/7.1.3.4/lib/rails/application.rb#338
@@ -323,7 +323,7 @@ end
 # Hack: We need to remove Rails' built in config.assets so we can
 # do our own thing.
 #
-# source://sprockets-rails//lib/sprockets/railtie.rb#21
+# source://sprockets-rails//lib/sprockets/railtie.rb#22
 class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # source://railties/7.1.3.4/lib/rails/application/configuration.rb#30
   def initialize(*_arg0); end
@@ -688,180 +688,6 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   def credentials_defaults; end
 end
 
-# source://sprockets-rails//lib/sprockets/railtie.rb#57
-class Rails::Engine < ::Rails::Railtie
-  # source://railties/7.1.3.4/lib/rails/engine.rb#439
-  def initialize; end
-
-  # source://activesupport/7.1.3.4/lib/active_support/callbacks.rb#70
-  def __callbacks; end
-
-  # source://activesupport/7.1.3.4/lib/active_support/callbacks.rb#70
-  def __callbacks?; end
-
-  # source://activesupport/7.1.3.4/lib/active_support/callbacks.rb#963
-  def _load_seed_callbacks; end
-
-  # source://activesupport/7.1.3.4/lib/active_support/callbacks.rb#951
-  def _run_load_seed_callbacks(&block); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#517
-  def app; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#534
-  def call(env); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#553
-  def config; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#491
-  def eager_load!; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#529
-  def endpoint; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#437
-  def engine_name(*_arg0, **_arg1, &_arg2); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#540
-  def env_config; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#501
-  def helpers; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#512
-  def helpers_paths; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#437
-  def isolated?(&block); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#453
-  def load_console(app = T.unsafe(nil)); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#477
-  def load_generators(app = T.unsafe(nil)); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#462
-  def load_runner(app = T.unsafe(nil)); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#561
-  def load_seed; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#486
-  def load_server(app = T.unsafe(nil)); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#469
-  def load_tasks(app = T.unsafe(nil)); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#436
-  def middleware(*_arg0, **_arg1, &_arg2); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#436
-  def paths(*_arg0, **_arg1, &_arg2); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#496
-  def railties; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#436
-  def root(*_arg0, **_arg1, &_arg2); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#546
-  def routes(&block); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#677
-  def routes?; end
-
-  protected
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#682
-  def run_tasks_blocks(*_arg0); end
-
-  private
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#714
-  def _all_autoload_once_paths; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#718
-  def _all_autoload_paths; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#727
-  def _all_load_paths(add_autoload_paths_to_load_path); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#751
-  def build_middleware; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#743
-  def build_request(env); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#710
-  def default_middleware_stack; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#738
-  def fixtures_in_root_and_not_in_vendor?(fixtures); end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#694
-  def has_migrations?; end
-
-  # source://railties/7.1.3.4/lib/rails/engine.rb#688
-  def load_config_initializer(initializer); end
-
-  class << self
-    # source://activesupport/7.1.3.4/lib/active_support/callbacks.rb#70
-    def __callbacks; end
-
-    # source://activesupport/7.1.3.4/lib/active_support/callbacks.rb#70
-    def __callbacks=(value); end
-
-    # source://activesupport/7.1.3.4/lib/active_support/callbacks.rb#70
-    def __callbacks?; end
-
-    # source://activesupport/7.1.3.4/lib/active_support/callbacks.rb#955
-    def _load_seed_callbacks; end
-
-    # source://activesupport/7.1.3.4/lib/active_support/callbacks.rb#959
-    def _load_seed_callbacks=(value); end
-
-    # source://railties/7.1.3.4/lib/rails/engine.rb#354
-    def called_from; end
-
-    # source://railties/7.1.3.4/lib/rails/engine.rb#354
-    def called_from=(_arg0); end
-
-    # source://railties/7.1.3.4/lib/rails/engine.rb#359
-    def eager_load!(*_arg0, **_arg1, &_arg2); end
-
-    # source://railties/7.1.3.4/lib/rails/engine.rb#379
-    def endpoint(endpoint = T.unsafe(nil)); end
-
-    # source://railties/7.1.3.4/lib/rails/railtie.rb#176
-    def engine_name(name = T.unsafe(nil)); end
-
-    # source://railties/7.1.3.4/lib/rails/engine.rb#423
-    def find(path); end
-
-    # source://railties/7.1.3.4/lib/rails/engine.rb#375
-    def find_root(from); end
-
-    # source://railties/7.1.3.4/lib/rails/engine.rb#698
-    def find_root_with_flag(flag, root_path, default = T.unsafe(nil)); end
-
-    # source://railties/7.1.3.4/lib/rails/engine.rb#361
-    def inherited(base); end
-
-    # source://railties/7.1.3.4/lib/rails/engine.rb#385
-    def isolate_namespace(mod); end
-
-    # source://railties/7.1.3.4/lib/rails/engine.rb#354
-    def isolated; end
-
-    # source://railties/7.1.3.4/lib/rails/engine.rb#354
-    def isolated=(_arg0); end
-
-    # source://railties/7.1.3.4/lib/rails/engine.rb#354
-    def isolated?; end
-  end
-end
-
 # source://sprockets-rails//lib/sprockets/rails/version.rb#1
 module Sprockets
   extend ::Sprockets::Utils
@@ -880,7 +706,12 @@ module Sprockets
 end
 
 # source://sprockets-rails//lib/sprockets/rails/version.rb#2
-module Sprockets::Rails; end
+module Sprockets::Rails
+  class << self
+    # source://sprockets-rails//lib/sprockets/rails/deprecator.rb#7
+    def deprecator; end
+  end
+end
 
 # Resolve assets referenced in CSS `url()` calls and replace them with the digested paths
 #
@@ -960,7 +791,7 @@ module Sprockets::Rails::Helper
   #
   # Returns String path or nil if no asset was found.
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#113
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#112
   def asset_digest_path(path, options = T.unsafe(nil)); end
 
   # Experimental: Get integrity for asset path.
@@ -970,7 +801,7 @@ module Sprockets::Rails::Helper
   #
   # Returns String integrity attribute or nil if no asset was found.
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#125
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#124
   def asset_integrity(path, options = T.unsafe(nil)); end
 
   # Writes over the built in ActionView::Helpers::AssetUrlHelper#compute_asset_path
@@ -983,27 +814,27 @@ module Sprockets::Rails::Helper
   #
   # Eventually will be deprecated and replaced by source maps.
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#136
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#135
   def javascript_include_tag(*sources); end
 
   # Resolve the asset path against the Sprockets manifest or environment.
   # Returns nil if it's an asset we don't know about.
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#101
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#100
   def resolve_asset_path(path, allow_non_precompiled = T.unsafe(nil)); end
 
   # Override stylesheet tag helper to provide debugging support.
   #
   # Eventually will be deprecated and replaced by source maps.
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#165
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#164
   def stylesheet_link_tag(*sources); end
 
   protected
 
   # List of resolvers in `config.assets.resolve_with` order.
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#250
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#249
   def asset_resolver_strategies; end
 
   # This is awkward: `integrity` is a boolean option indicating whether
@@ -1015,23 +846,23 @@ module Sprockets::Rails::Helper
   #
   # @return [Boolean]
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#198
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#197
   def compute_integrity?(options); end
 
   # Append ?body=1 if debug is on and we're on old Sprockets.
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#258
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#257
   def legacy_debug_path(path, debug); end
 
   # Internal method to support multifile debugging. Will
   # eventually be removed w/ Sprockets 3.x.
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#226
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#225
   def lookup_debug_asset(path, options = T.unsafe(nil)); end
 
   # compute_asset_extname is in AV::Helpers::AssetUrlHelper
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#235
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#234
   def path_with_extname(path, options); end
 
   # Enable split asset debugging. Eventually will be deprecated
@@ -1039,12 +870,12 @@ module Sprockets::Rails::Helper
   #
   # @return [Boolean]
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#218
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#217
   def request_debug_assets?; end
 
   # Try each asset resolver and return the first non-nil result.
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#241
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#240
   def resolve_asset; end
 
   # Only serve integrity metadata for HTTPS requests:
@@ -1052,7 +883,7 @@ module Sprockets::Rails::Helper
   #
   # @return [Boolean]
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#212
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#211
   def secure_subresource_integrity_context?; end
 
   class << self
@@ -1156,105 +987,108 @@ Sprockets::Rails::Helper::VIEW_ACCESSORS = T.let(T.unsafe(nil), Array)
 # Use a separate module since Helper is mixed in and we needn't pollute
 # the class namespace with our internals.
 #
-# source://sprockets-rails//lib/sprockets/rails/helper.rb#269
+# source://sprockets-rails//lib/sprockets/rails/helper.rb#268
 module Sprockets::Rails::HelperAssetResolvers
   class << self
-    # source://sprockets-rails//lib/sprockets/rails/helper.rb#270
+    # source://sprockets-rails//lib/sprockets/rails/helper.rb#269
     def [](name); end
   end
 end
 
-# source://sprockets-rails//lib/sprockets/rails/helper.rb#315
+# source://sprockets-rails//lib/sprockets/rails/helper.rb#314
 class Sprockets::Rails::HelperAssetResolvers::Environment
   # @raise [ArgumentError]
   # @return [Environment] a new instance of Environment
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#316
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#315
   def initialize(view); end
 
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#323
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#322
   def asset_path(path, digest, allow_non_precompiled = T.unsafe(nil)); end
 
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#336
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#335
   def digest_path(path, allow_non_precompiled = T.unsafe(nil)); end
 
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#357
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#356
   def find_asset(path, options = T.unsafe(nil)); end
 
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#347
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#346
   def find_debug_asset(path); end
 
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#343
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#342
   def integrity(path); end
 
   private
 
   # @return [Boolean]
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#367
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#366
   def precompiled?(path); end
 
   # @raise [Helper::AssetNotPrecompiledError]
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#371
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#370
   def raise_unless_precompiled_asset(path); end
 end
 
-# source://sprockets-rails//lib/sprockets/rails/helper.rb#281
+# source://sprockets-rails//lib/sprockets/rails/helper.rb#280
 class Sprockets::Rails::HelperAssetResolvers::Manifest
   # @raise [ArgumentError]
   # @return [Manifest] a new instance of Manifest
   #
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#282
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#281
   def initialize(view); end
 
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#287
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#286
   def asset_path(path, digest, allow_non_precompiled = T.unsafe(nil)); end
 
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#293
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#292
   def digest_path(path, allow_non_precompiled = T.unsafe(nil)); end
 
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#303
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#302
   def find_debug_asset(path); end
 
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#297
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#296
   def integrity(path); end
 
   private
 
-  # source://sprockets-rails//lib/sprockets/rails/helper.rb#308
+  # source://sprockets-rails//lib/sprockets/rails/helper.rb#307
   def metadata(path); end
 end
 
 # source://sprockets-rails//lib/sprockets/rails/quiet_assets.rb#3
+class Sprockets::Rails::LoggerSilenceError < ::StandardError; end
+
+# source://sprockets-rails//lib/sprockets/rails/quiet_assets.rb#5
 class Sprockets::Rails::QuietAssets
   # @return [QuietAssets] a new instance of QuietAssets
   #
-  # source://sprockets-rails//lib/sprockets/rails/quiet_assets.rb#4
+  # source://sprockets-rails//lib/sprockets/rails/quiet_assets.rb#6
   def initialize(app); end
 
-  # source://sprockets-rails//lib/sprockets/rails/quiet_assets.rb#9
+  # source://sprockets-rails//lib/sprockets/rails/quiet_assets.rb#11
   def call(env); end
+
+  private
+
+  # @raise [LoggerSilenceError]
+  #
+  # source://sprockets-rails//lib/sprockets/rails/quiet_assets.rb#22
+  def raise_logger_silence_error; end
 end
 
 # source://sprockets-rails//lib/sprockets/rails/route_wrapper.rb#3
 module Sprockets::Rails::RouteWrapper
   # @return [Boolean]
   #
-  # source://sprockets-rails//lib/sprockets/rails/route_wrapper.rb#9
+  # source://sprockets-rails//lib/sprockets/rails/route_wrapper.rb#8
   def internal?; end
 
   # @return [Boolean]
   #
-  # source://sprockets-rails//lib/sprockets/rails/route_wrapper.rb#5
+  # source://sprockets-rails//lib/sprockets/rails/route_wrapper.rb#4
   def internal_assets_path?; end
-
-  class << self
-    # @private
-    #
-    # source://sprockets-rails//lib/sprockets/rails/route_wrapper.rb#13
-    def included(klass); end
-  end
 end
 
 # Rewrites source mapping urls with the digested paths and protect against semicolon appending with a dummy comment line
@@ -1295,7 +1129,7 @@ end
 # source://sprockets-rails//lib/sprockets/rails/version.rb#3
 Sprockets::Rails::VERSION = T.let(T.unsafe(nil), String)
 
-# source://sprockets-rails//lib/sprockets/railtie.rb#70
+# source://sprockets-rails//lib/sprockets/railtie.rb#60
 class Sprockets::Railtie < ::Rails::Railtie
   include ::Sprockets::Rails::Utils
 
@@ -1308,19 +1142,19 @@ class Sprockets::Railtie < ::Rails::Railtie
   end
 end
 
-# source://sprockets-rails//lib/sprockets/railtie.rb#88
+# source://sprockets-rails//lib/sprockets/railtie.rb#78
 Sprockets::Railtie::LOOSE_APP_ASSETS = T.let(T.unsafe(nil), Proc)
 
-# source://sprockets-rails//lib/sprockets/railtie.rb#73
+# source://sprockets-rails//lib/sprockets/railtie.rb#63
 class Sprockets::Railtie::ManifestNeededError < ::StandardError
   # @return [ManifestNeededError] a new instance of ManifestNeededError
   #
-  # source://sprockets-rails//lib/sprockets/railtie.rb#74
+  # source://sprockets-rails//lib/sprockets/railtie.rb#64
   def initialize; end
 end
 
-# source://sprockets-rails//lib/sprockets/railtie.rb#93
+# source://sprockets-rails//lib/sprockets/railtie.rb#83
 class Sprockets::Railtie::OrderedOptions < ::ActiveSupport::OrderedOptions
-  # source://sprockets-rails//lib/sprockets/railtie.rb#94
+  # source://sprockets-rails//lib/sprockets/railtie.rb#84
   def configure(&block); end
 end

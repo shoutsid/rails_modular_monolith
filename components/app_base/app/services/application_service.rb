@@ -2,9 +2,7 @@
 
 # ApplicationService base class
 class ApplicationService
-  def initialize(*)
-    @params = {}
-  end
+  def initialize(*); end
 
   def self.call(*)
     new(*).call

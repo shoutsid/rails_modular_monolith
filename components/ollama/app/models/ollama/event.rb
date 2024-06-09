@@ -20,6 +20,7 @@ module Ollama
   # Event model
   class Event < ApplicationRecord
     include TransactionalOutbox::Outboxable
+
     belongs_to :conversation, foreign_key: :ollama_conversation_id, touch: true
     belongs_to :message, foreign_key: :ollama_message_id, touch: true
   end
