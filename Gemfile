@@ -43,6 +43,9 @@ gem 'neighbor'
 gem 'ollama-ai', '~> 1.2.1'
 gem 'tiktoken_ruby'
 
+# AWS
+gem 'aws-sdk-rails', '~> 3.13'
+
 group :development, :test do
   # Rubocop & Linting
   gem 'rubocop', '~> 1.64', require: false

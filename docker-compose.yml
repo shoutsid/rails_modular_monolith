@@ -1,4 +1,14 @@
 services:
+  localstack:
+    container_name: localstack
+    image: localstack/localstack
+    healthcheck:
+      test: awslocal sns list-topics && awslocal sqs list-queues
+      interval: 3s
+      timeout: 10s
+    environment:
+      - AWS_DEFAULT_REGION=eu-west-1
+      - LOCALSTACK_HOST=localstack
   ollama:
     image: ollama/ollama
     restart: on-failure
