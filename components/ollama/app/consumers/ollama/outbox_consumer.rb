@@ -20,7 +20,7 @@ module Ollama
         consumed_message = Ollama::ConsumedMessage.create!(event_id: identifier, aggregate:,
                                                            status: :processing)
         begin
-          EVENTS_MAPPING[event].new(data).call
+          EVENTS_MAPPING[event].call(data)
           consumed_message.update!(status: :succeeded)
         rescue StandardError
           consumed_message.update!(status: :failed)

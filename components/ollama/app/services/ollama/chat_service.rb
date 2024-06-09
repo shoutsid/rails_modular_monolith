@@ -7,7 +7,7 @@ module Ollama
   end
 
   # The ChatService class is used to chat to Ollama via the API
-  class ChatService
+  class ChatService < ApplicationService
     attr_reader :conversation_id, :event_payload, :client, :model, :message
     attr_accessor :last_message
     attr_writer :messages
@@ -24,6 +24,7 @@ module Ollama
       @model = @event_payload['model'].nil? ? Ollama::Chat::DEFAULT_MODEL : @event_payload['model']
       @client = client_for_payload(@event_payload)
       memoization_and_validation
+      super
     end
 
     # Memoizes all required attributes and raises required exceptions.
