@@ -95,6 +95,9 @@ group :development do
   # At the time of writing palour is dependent on 6.0
   # gem 'parlour', '~> 9.0'
   # gem 'watchman', '~> 0.1.1'
+
+  # Used for git hooks
+  gem 'overcommit', '~> 0.63.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
