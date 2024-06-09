@@ -38,16 +38,22 @@ RSpec.describe Ollama::Chat do
 
   describe '#before' do
     it 'processes the given content before sending it to the AI model' do
-      expect(Ollama::Message).to receive(:create!)
+      expect(Ollama::Message).to receive_message_chain(:new, :save!).with(
+        hash_including(outbox_event: Ollama::Events::START_CHAT)
+      )
       subject.before(content: 'test content')
     end
   end
 
   describe '#after' do
     it 'processes the response from the AI model after it has been generated' do
-      expect(Ollama::Message).to receive(:create!)
-      expect(subject).to receive_message_chain(:last_message, :events, :pluck, :map,
+      allow(subject).to receive_message_chain(:last_message, :events, :pluck, :map,
                                                :join).and_return('Healthy response.')
+      response_message = instance_double(Ollama::Message)
+      expect(Ollama::Message).to receive(:new).and_return(response_message)
+      expect(subject).to receive_message_chain(:last_message, :save!).with(
+        hash_including(outbox_event: Ollama::Events::STOP_CHAT)
+       )
       subject.after
     end
   end

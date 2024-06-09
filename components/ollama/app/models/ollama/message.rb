@@ -22,7 +22,8 @@ module Ollama
     has_many :events, foreign_key: :ollama_message_id
     belongs_to :conversation, foreign_key: :ollama_conversation_id
 
-    has_and_belongs_to_many :chunks, foreign_key: :ollama_message_id, primary_key: :id
+    has_many :chunks_messages, foreign_key: :ollama_message_id
+    has_many :chunks, through: :chunks_messages, source: :ollama_chunk
 
     enum :role, {
       system: 'system', assistant: 'assistant', user: 'user'
@@ -34,7 +35,7 @@ module Ollama
     # after_update :sync_chunk
 
     def create_chunk
-      Ollama::CreateChunkJob.perform_later(data: content, message_ids: [id])
+      chunks.build([data: content]).each(&:save!) if content.present?
     end
   end
 end

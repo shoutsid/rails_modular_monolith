@@ -4,7 +4,7 @@ module Ollama
   # Consume messages from outbox topic and process them.
   class OutboxConsumer
     EVENTS_MAPPING = {
-      Ollama::Events::START_CHAT => Ollama::ChatService
+      Ollama::Events::MESSAGE_CREATED => -> { puts 'Example of lambda & proc as a service' } # microservices :)
     }.freeze
 
     def initialize(payload)

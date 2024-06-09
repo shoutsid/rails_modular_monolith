@@ -8,7 +8,7 @@ module Ollama
 
   # The ChatService class is used to chat to Ollama via the API
   class ChatService
-    attr_reader :conversation_id, :event_payload, :client, :model
+    attr_reader :conversation_id, :event_payload, :client, :model, :message
     attr_accessor :last_message
     attr_writer :messages
 
@@ -19,13 +19,10 @@ module Ollama
       @event_payload = event_payload.with_indifferent_access
       @conversation_id = @event_payload['conversation_id'] unless @event_payload['conversation_id'].nil?
       @_messages = @event_payload['messages'] unless @event_payload['messages'].nil?
+      @last_message = @event_payload['messages'].last if @event_payload['messages'].present?
+      @message = @event_payload['message'] unless @event_payload['message'].nil?
       @model = @event_payload['model'].nil? ? Ollama::Chat::DEFAULT_MODEL : @event_payload['model']
-      @client = if !@event_payload['client'].nil? && @event_payload['client'] == 'langchain'
-                  Langchain::LLM::Ollama.new(url: 'http://ollama:11434')
-                else
-                  Ollama.new(credentials: { address: 'http://ollama:11434' }, options: { server_sent_events: true })
-                end
-
+      @client = client_for_payload(@event_payload)
       memoization_and_validation
     end
 
@@ -37,12 +34,26 @@ module Ollama
 
     # Calls the chat service with the provided client, messages, and conversation.
     def call
-      Ollama::Chat.new(client:, messages:, conversation:).chat(model:)
+      message_to_use = @message.presence || last_message || ''
+      Ollama::Chat.new(client:, messages:, conversation:).chat(model:, message: message_to_use)
     end
 
     private
 
     attr_reader :ollama_client
+
+    # Returns the appropriate client for the given payload.
+    #
+    # @param payload [Hash] containing the event payload data.
+    # @return [Langchain::LLM::Ollama] if the payload contains a client key and value of 'langchain'
+    # @return [Ollama::Chat] for anything other than 'langchain'.
+    def client_for_payload(payload)
+      if !payload['client'].nil? && payload['client'] == 'langchain'
+        Langchain::LLM::Ollama.new(url: 'http://ollama:11434')
+      else
+        Ollama.new(credentials: { address: 'http://ollama:11434' }, options: { server_sent_events: true })
+      end
+    end
 
     # Retrieves the conversation associated with the current instance.
     # If the conversation_id is present and is an integer,

@@ -27,7 +27,7 @@ module Ollama
     # Initializes a new instance of the Chat class.
     #
     # @param client [Ollama::Controllers::Client | Langchain::LLM::Ollama] AI client to use for generating responses.
-    # @param messages [Array<Hash>] the messages in the conversation.
+    # @param messages [Array<Hash>] the message history in the conversation.
     # @param conversation [Ollama::Conversation] the conversation object associated with the chat.
     def initialize(client:, messages:, conversation:)
       @client = client
@@ -104,7 +104,7 @@ module Ollama
     # @param model [String] the AI model to use for generating the response.
     # @param message [String] the message to send to the AI model.
     def chat(model: DEFAULT_MODEL, message: 'hi! please send me a long message')
-      before(content: message)
+      before(content: message) if message.present?
       args = { model:, messages: }
       ollama_controller_client? ? client.chat(args, &event_callback) : client.chat(**args, &event_callback)
       after
@@ -119,17 +119,20 @@ module Ollama
     #
     # @param content [String] the content to process.
     def before(content:)
-      self.last_message = Ollama::Message.create!(role: 'user', content:, conversation:)
+      self.last_message = Ollama::Message.new(
+        role: 'user', content:, conversation:
+      )
+      last_message.save!(outbox_event: Ollama::Events::START_CHAT)
       messages << { role: 'user', content: }
     end
 
     # Processes the response from the AI model after it has been generated.
     def after # rubocop:disable Metrics/CyclomaticComplexity
       complete_response = last_message&.events&.pluck(:data)&.map do |e|
-        content = e.dig('message', 'content')
-        content || (e['response'] || '')
+        e.dig('message', 'content') || (e['response'] || '')
       end&.join
-      self.last_message = Ollama::Message.create!(role: 'assistant', content: complete_response, conversation:)
+      self.last_message = Ollama::Message.new(role: 'assistant', content: complete_response, conversation:)
+      last_message.save!(outbox_event: Ollama::Events::STOP_CHAT)
       messages << { role: 'assistant', content: complete_response }
     end
 

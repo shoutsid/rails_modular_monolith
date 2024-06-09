@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Ollama
-  # SyncEmbeddingsJob is a job that syncs the embeddings of a chunk
-  class SyncEmbeddingsJob < ApplicationJob
+  # SyncEmbeddingsJob is a job that syncs the embedding of a chunk
+  class SyncEmbeddingJob < ApplicationJob
     queue_as :default
     def client
       @client ||= Ollama.new(

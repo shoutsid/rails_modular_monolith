@@ -6,6 +6,8 @@ module TransactionalOutbox
     extend ActiveSupport::Concern
 
     included do
+      attr_accessor :outbox_event
+
       *namespace, klass = name.underscore.upcase.split('/')
       namespace = namespace.reverse.join('.')
 
@@ -25,19 +27,14 @@ module TransactionalOutbox
     end
 
     def save(**options, &)
-      if options[:outbox_event].present?
-        @outbox_event = options[:outbox_event].underscore.upcase
-        # options.delete(:outbox_event)
-      end
+      @outbox_event = options[:outbox_event]&.underscore&.upcase if options.present? && options.key?(:outbox_event)
 
       super
     end
 
     def save!(**options, &)
-      if options[:outbox_event].present?
-        @outbox_event = options[:outbox_event].underscore.upcase
-        # options.delete(:outbox_event)
-      end
+      @outbox_event = options[:outbox_event]&.underscore&.upcase if options.present? && options.key?(:outbox_event)
+
       super
     end
 

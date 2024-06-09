@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Ollama::ChatService do
+RSpec.describe Ollama::ChatService, type: :service do
   subject { described_class.new(event_payload) }
 
   let(:event_payload) do

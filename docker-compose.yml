@@ -14,7 +14,6 @@ services:
     volumes:
       - ollama:/root/.ollama
     command: "serve"
-
   zookeeper:
     image: debezium/zookeeper:1.9
     restart: on-failure
@@ -113,7 +112,6 @@ services:
     depends_on:
       db:
         condition: service_started
-
   karafka:
     build: .
     stdin_open: true
@@ -133,7 +131,6 @@ services:
       - .:/rails
     depends_on:
       - web
-
   karafka-web:
     build: .
     stdin_open: true
@@ -155,7 +152,6 @@ services:
       - .:/rails
     depends_on:
       - karafka
-
   mailcatcher:
     image: schickling/mailcatcher
     restart: unless-stopped
@@ -177,7 +173,23 @@ services:
       - "postgres"
       - "-c"
       - "wal_level=logical"
+  pgadmin4:
+      image: elestio/pgadmin:latest
+      restart: always
+      environment:
+        - PGADMIN_DEFAULT_EMAIL=${PG_ADMIN_EMAIL:-admin@example.com}
+        - PGADMIN_DEFAULT_PASSWORD=${PG_ADMIN_PASSWORD:-password}
+        - PGADMIN_LISTEN_PORT=${PG_ADMIN_PORT:-8080}
+      depends_on:
+        db:
+          condition: service_started
+      ports:
+        - "${PG_ADMIN_PORT:-8080}:${PG_ADMIN_PORT:-8080}"
+      volumes:
+        - pg_admin:/pgadmin4
+
 volumes:
   db_data3:
   ollama:
+  pg_admin:
   # kafka:

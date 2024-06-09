@@ -21,7 +21,8 @@ module Ollama
   class Chunk < ApplicationRecord
     include TransactionalOutbox::Outboxable
 
-    has_and_belongs_to_many :messages, foreign_key: :ollama_message_id, join_table: :ollama_chunks_messages
+    has_many :chunks_messages, foreign_key: :ollama_message_id
+    has_many :messages, through: :chunks_messages, source: :ollama_message
 
     has_neighbors :embedding
 
@@ -32,18 +33,19 @@ module Ollama
     validates :token_count, presence: true
 
     before_validation :set_token_count, on: :create
-    after_create :sync_embeddings
+    after_create :sync_embedding
 
     def nearest
       nearest_neighbors(:embedding, distance: :inner_product)
     end
 
+    # Set the known Token count it would of been with GPT-4
     def set_token_count
       self.token_count = Tiktoken.encoding_for_model('gpt-4').encode(data).length
     end
 
-    def sync_embeddings
-      SyncEmbeddingsJob.perform_later(id)
+    def sync_embedding
+      SyncEmbeddingJob.perform_later(id)
     end
   end
 end
