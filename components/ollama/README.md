@@ -13,35 +13,29 @@ event_payload = {
   conversation_id: conversation.id,
   messages: messages
 }
+
+# From instance
 chat_service = Ollama::ChatService.new(event_payload)
-```
-
-### Chatting with the AI model using the `call` method:
-
-```ruby
 response = chat_service.call
+# Or from call
+response = Ollama::ChatService.call(event_payload)
 ```
 
-This will send the messages to the AI model and generate a response. The response will be added to the conversation and can be accessed through the `last_message` attribute of the `chat_service` instance.
-
-Examples
---------
-
-### Example: Chatting with the AI model using the Chat Service
+This will send the messages to the AI model and generate a response. The response will be added to the conversation and the created Ollama::Message can be accessed through the `last_message` attribute of the `chat_service` instance.
 
 ```ruby
 conversation = Ollama::Conversation.create! # TODO create a service
-messages = [{ role: 'system', content: 'Your are a helpful assistant' } , { role: 'user', content: 'hi! please send me a long message' }]
+messages = [{ role: 'system', content: 'Your are a helpful assistant' }]
 
 event_payload = {
   conversation_id: conversation.id, # optional
-  messages: messages, # optional
+  message: 'hi! please send me a long message' # required
+  messages: messages, # optional - represents the chat history
   model: 'mistral' # optional - please see https://github.com/ollama/ollama?tab=readme-ov-file#model-library for available models. llama3 by default.
 }
 chat_service = Ollama::ChatService.new(event_payload)
-
 response = chat_service.call
-# response => =>
+# response =>
 # [{"role"=>"assistant", "content"=>"Your are a helpful assistant"},
 #  {:role=>"user", :content=>"hi! please send me a long message"},
 #  {:role=>"assistant",
@@ -50,3 +44,24 @@ response = chat_service.call
 ```
 
 This will output the AI model's generated response to the message "Hello!"
+
+
+## Available Events
+
+All custom events are within [components/ollama/app/constants/ollama/events.rb](app/constants/ollama/events.rb)
+
+* `Ollama::Events::SYNC_EMBEDDING` will trigger the `Ollama::SyncEmbeddingService` microservice.
+* `Ollama::Events::MESSAGE_CREATED` triggers an example Proc/Lambda that simple outputs to the console.
+* `CHAT_STARTED` is triggered whenever a ChatService has started a chat with Ollama.
+* `CHAT_STOP` is triggered whenever a ChatService has finished a chat with Ollama.
+
+### Ollama::Message
+Has all Rails Outbox triggers. Meaning, UPDATE/DESTROY/CREATE callbacks in rails are also captured and evented.
+
+
+These are dynamically added but then overwritten in `Ollama::OutboxConsumer::EVENTS_MAPPING` which `MESSAGE_CREATED` and others represent as a display of functionality and extendability.
+
+
+### Ollama::Conversation, Ollama::Chunk, Ollama::Event
+
+Has all Rails Outbox triggers. Meaning, UPDATE/DESTROY/CREATE callbacks in rails are also captured and evented.
