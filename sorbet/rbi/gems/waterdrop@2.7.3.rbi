@@ -187,7 +187,7 @@ class WaterDrop::Config
   # @yield Runs a block of code providing a config singleton instance to it
   # @yieldparam WaterDrop [WaterDrop::Config] config instance
   #
-  # source://waterdrop//lib/waterdrop/config.rb#103
+  # source://waterdrop//lib/waterdrop/config.rb#107
   def setup; end
 
   private
@@ -198,7 +198,7 @@ class WaterDrop::Config
   #
   # @param config [Karafka::Core::Configurable::Node] config of this producer
   #
-  # source://waterdrop//lib/waterdrop/config.rb#123
+  # source://waterdrop//lib/waterdrop/config.rb#127
   def merge_kafka_defaults!(config); end
 end
 
@@ -577,7 +577,7 @@ class WaterDrop::Instrumentation::LoggerListener
 
   # @param event [Dry::Events::Event] event that happened with the error details
   #
-  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#133
+  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#138
   def on_error_occurred(event); end
 
   # @param event [Dry::Events::Event] event that happened with the details
@@ -624,27 +624,32 @@ class WaterDrop::Instrumentation::LoggerListener
 
   # @param event [Dry::Events::Event] event that happened with the details
   #
-  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#146
-  def on_transaction_aborted(event); end
+  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#133
+  def on_producer_reloaded(event); end
 
   # @param event [Dry::Events::Event] event that happened with the details
   #
   # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#151
-  def on_transaction_committed(event); end
-
-  # @param event [Dry::Events::Event] event that happened with the details
-  #
-  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#170
-  def on_transaction_finished(event); end
+  def on_transaction_aborted(event); end
 
   # @param event [Dry::Events::Event] event that happened with the details
   #
   # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#156
+  def on_transaction_committed(event); end
+
+  # @param event [Dry::Events::Event] event that happened with the details
+  #
+  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#175
+  def on_transaction_finished(event); end
+
+  # @param event [Dry::Events::Event] event that happened with the details
+  #
+  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#161
   def on_transaction_marked_as_consumed(event); end
 
   # @param event [Dry::Events::Event] event that happened with the details
   #
-  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#141
+  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#146
   def on_transaction_started(event); end
 
   private
@@ -652,24 +657,24 @@ class WaterDrop::Instrumentation::LoggerListener
   # @param event [Dry::Events::Event] event that happened with the details
   # @param log_message [String] message we want to publish
   #
-  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#183
+  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#188
   def debug(event, log_message); end
 
   # @param event [Dry::Events::Event] event that happened with the details
   # @param log_message [String] message we want to publish
   #
-  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#199
+  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#204
   def error(event, log_message); end
 
   # @param event [Dry::Events::Event] event that happened with the details
   # @param log_message [String] message we want to publish
   #
-  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#189
+  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#194
   def info(event, log_message); end
 
   # @return [Boolean] should we report the messages details in the debug mode.
   #
-  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#177
+  # source://waterdrop//lib/waterdrop/instrumentation/logger_listener.rb#182
   def log_messages?; end
 end
 
@@ -694,7 +699,7 @@ end
 class WaterDrop::Instrumentation::Notifications < ::Karafka::Core::Monitoring::Notifications
   # @return [WaterDrop::Instrumentation::Monitor] monitor instance for system instrumentation
   #
-  # source://waterdrop//lib/waterdrop/instrumentation/notifications.rb#42
+  # source://waterdrop//lib/waterdrop/instrumentation/notifications.rb#43
   def initialize; end
 end
 
@@ -780,12 +785,12 @@ class WaterDrop::Producer
   # @param force [Boolean] should we force closing even with outstanding messages after the
   #   max wait timeout
   #
-  # source://waterdrop//lib/waterdrop/producer.rb#149
+  # source://waterdrop//lib/waterdrop/producer.rb#176
   def close(force: T.unsafe(nil)); end
 
   # Closes the producer with forced close after timeout, purging any outgoing data
   #
-  # source://waterdrop//lib/waterdrop/producer.rb#224
+  # source://waterdrop//lib/waterdrop/producer.rb#241
   def close!; end
 
   # @return [Object] dry-configurable config object
@@ -798,13 +803,22 @@ class WaterDrop::Producer
   # source://waterdrop//lib/waterdrop/producer.rb#27
   def id; end
 
+  # @return [Boolean] true if current producer is idempotent
+  #
+  # source://waterdrop//lib/waterdrop/producer.rb#159
+  def idempotent?; end
+
   # @return [Array] internal messages buffer
   #
   # source://waterdrop//lib/waterdrop/producer.rb#31
   def messages; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def middleware(*args, **_arg1, &block); end
+  # Returns and caches the middleware object that may be used
+  #
+  # @return [WaterDrop::Producer::Middleware]
+  #
+  # source://waterdrop//lib/waterdrop/producer.rb#169
+  def middleware; end
 
   # @return [Object] monitor we want to use
   #
@@ -848,7 +862,15 @@ class WaterDrop::Producer
   # @param args [Object] anything `Producer::Variant` initializer accepts
   # @return [WaterDrop::Producer::Variant] variant proxy to use with alterations
   #
-  # source://waterdrop//lib/waterdrop/producer.rb#217
+  # source://waterdrop//lib/waterdrop/producer.rb#150
+  def variant(**args); end
+
+  # Builds the variant alteration and returns it.
+  #
+  # @param args [Object] anything `Producer::Variant` initializer accepts
+  # @return [WaterDrop::Producer::Variant] variant proxy to use with alterations
+  #
+  # source://waterdrop//lib/waterdrop/producer.rb#150
   def with(**args); end
 
   private
@@ -856,7 +878,7 @@ class WaterDrop::Producer
   # @return [Producer::Context] the variant config. Either custom if built using `#with` or
   #   a default one.
   #
-  # source://waterdrop//lib/waterdrop/producer.rb#264
+  # source://waterdrop//lib/waterdrop/producer.rb#281
   def current_variant; end
 
   # Ensures that we don't run any operations when the producer is not configured or when it
@@ -864,14 +886,14 @@ class WaterDrop::Producer
   #
   # @raise [Errors::ProducerNotConfiguredError]
   #
-  # source://waterdrop//lib/waterdrop/producer.rb#232
+  # source://waterdrop//lib/waterdrop/producer.rb#249
   def ensure_active!; end
 
   # Runs the client produce method with a given message
   #
   # @param message [Hash] message we want to send
   #
-  # source://waterdrop//lib/waterdrop/producer.rb#271
+  # source://waterdrop//lib/waterdrop/producer.rb#288
   def produce(message); end
 
   # Ensures that the message we want to send out to Kafka is actually valid and that it can be
@@ -880,14 +902,14 @@ class WaterDrop::Producer
   # @param message [Hash] message we want to send
   # @raise [Karafka::Errors::MessageInvalidError]
   #
-  # source://waterdrop//lib/waterdrop/producer.rb#248
+  # source://waterdrop//lib/waterdrop/producer.rb#265
   def validate_message!(message); end
 
   # Waits on a given handler
   #
   # @param handler [Rdkafka::Producer::DeliveryHandle]
   #
-  # source://waterdrop//lib/waterdrop/producer.rb#255
+  # source://waterdrop//lib/waterdrop/producer.rb#272
   def wait(handler); end
 end
 
@@ -1129,12 +1151,12 @@ module WaterDrop::Producer::Transactions
   #   handler.wait
   # @return Block result
   #
-  # source://waterdrop//lib/waterdrop/producer/transactions.rb#51
+  # source://waterdrop//lib/waterdrop/producer/transactions.rb#57
   def transaction; end
 
   # @return [Boolean] true if we are in an active transaction
   #
-  # source://waterdrop//lib/waterdrop/producer/transactions.rb#93
+  # source://waterdrop//lib/waterdrop/producer/transactions.rb#115
   def transaction?; end
 
   # Marks given message as consumed inside of a transaction.
@@ -1145,12 +1167,12 @@ module WaterDrop::Producer::Transactions
   # @param offset_metadata [String] offset metadata or nil if none
   # @raise [Errors::TransactionRequiredError]
   #
-  # source://waterdrop//lib/waterdrop/producer/transactions.rb#110
+  # source://waterdrop//lib/waterdrop/producer/transactions.rb#132
   def transaction_mark_as_consumed(consumer, message, offset_metadata = T.unsafe(nil)); end
 
   # @return [Boolean] Is this producer a transactional one
   #
-  # source://waterdrop//lib/waterdrop/producer/transactions.rb#98
+  # source://waterdrop//lib/waterdrop/producer/transactions.rb#120
   def transactional?; end
 
   private
@@ -1161,8 +1183,25 @@ module WaterDrop::Producer::Transactions
   # @param details [Hash] additional instrumentation details
   # @param block [Proc] block to run inside the instrumentation or nothing if not given
   #
-  # source://waterdrop//lib/waterdrop/producer/transactions.rb#162
+  # source://waterdrop//lib/waterdrop/producer/transactions.rb#184
   def transactional_instrument(key, details = T.unsafe(nil), &block); end
+
+  # Reloads the underlying client instance if needed and allowed
+  #
+  # This should be used only in transactions as only then we can get fatal transactional
+  # errors and we can safely reload the client.
+  #
+  # Because we reload on any errors where cause is `Rdkafka::RdkafkaError` (minus exclusions)
+  # this in theory can cause reload if it was something else that raised those in transactions,
+  # for example Karafka. This is a trade-off. Since any error anyhow will cause a rollback,
+  # putting aside performance implication of closing and reconnecting, this should not be an
+  # issue.
+  #
+  # @note We only reload on rdkafka errors that are a cause on messages dispatches.
+  # @param error [Exception] any error that was raised
+  #
+  # source://waterdrop//lib/waterdrop/producer/transactions.rb#260
+  def transactional_reload_client_if_needed(error); end
 
   # Runs provided code with a transaction wrapper if transactions are enabled.
   # This allows us to simplify the async and sync batch dispatchers because we can ensure that
@@ -1171,7 +1210,7 @@ module WaterDrop::Producer::Transactions
   #
   # @param block [Proc] code we want to run
   #
-  # source://waterdrop//lib/waterdrop/producer/transactions.rb#153
+  # source://waterdrop//lib/waterdrop/producer/transactions.rb#175
   def with_transaction_if_transactional(&block); end
 
   # Error handling for transactional operations is a bit special. There are three types of
@@ -1190,14 +1229,20 @@ module WaterDrop::Producer::Transactions
   # @param allow_abortable [Boolean] should we allow for the abortable flow. This is set to
   #   false internally to prevent attempts to abort from failed abort operations
   #
-  # source://waterdrop//lib/waterdrop/producer/transactions.rb#181
+  # source://waterdrop//lib/waterdrop/producer/transactions.rb#203
   def with_transactional_error_handling(action, allow_abortable: T.unsafe(nil)); end
 end
 
 # Contract to validate that input for transactional offset storage is correct
 #
-# source://waterdrop//lib/waterdrop/producer/transactions.rb#8
+# source://waterdrop//lib/waterdrop/producer/transactions.rb#14
 WaterDrop::Producer::Transactions::CONTRACT = T.let(T.unsafe(nil), WaterDrop::Contracts::TransactionalOffset)
+
+# We should never reload producer if it was fenced, otherwise we could end up with some sort
+# of weird race-conditions
+#
+# source://waterdrop//lib/waterdrop/producer/transactions.rb#9
+WaterDrop::Producer::Transactions::NON_RELOADABLE_ERRORS = T.let(T.unsafe(nil), Array)
 
 # Object that acts as a proxy allowing for alteration of certain low-level per-topic
 # configuration and some other settings that users may find useful to alter, without having
