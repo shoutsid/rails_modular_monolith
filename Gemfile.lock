@@ -315,7 +315,7 @@ GEM
       prism (>= 0.25.0)
       sorbet-runtime (>= 0.5.9914)
       zeitwerk (>= 2.6.1)
-    parallel (1.24.0)
+    parallel (1.25.1)
     parser (3.3.2.0)
       ast (~> 2.4.1)
       racc
@@ -399,8 +399,8 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.2.8)
-      strscan (>= 3.0.9)
+    rexml (3.2.9)
+      strscan
     roda (3.80.0)
       rack
     rspec-core (3.13.0)
@@ -449,7 +449,7 @@ GEM
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
       rubocop-rspec_rails (~> 2.28)
-    rubocop-rspec_rails (2.28.3)
+    rubocop-rspec_rails (2.29.0)
       rubocop (~> 1.40)
     ruby-graphviz (1.2.5)
       rexml
@@ -595,7 +595,7 @@ DEPENDENCIES
   rubocop-rails (~> 2.25)
   rubocop-rake (~> 0.6.0)
   rubocop-rspec (~> 2.30)
-  rubocop-rspec_rails (~> 2.28)
+  rubocop-rspec_rails (~> 2.29)
   shoulda-matchers (~> 6.2)
   sorbet (~> 0.5.11418)
   sorbet-runtime (~> 0.5.11418)
