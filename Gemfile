@@ -49,7 +49,7 @@ gem 'aws-sdk-rails', '~> 3.13'
 group :development, :test do
   # Rubocop & Linting
   gem 'rubocop', '~> 1.64', require: false
-  gem 'rubocop-factory_bot', '~> 2.25'
+  gem 'rubocop-factory_bot', '~> 2.26'
   gem 'rubocop-rails', '~> 2.25'
   gem 'rubocop-rake', '~> 0.6.0'
   gem 'rubocop-rspec', '~> 2.30'
