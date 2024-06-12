@@ -92,7 +92,7 @@ group :development do
   gem 'rack-mini-profiler', '~> 3.3'
 
   # Static Typing
-  gem 'sorbet', '~> 0.5.11418'
+  gem 'sorbet', '~> 0.5.11428'
 
   # Requires old version of parlour :(
   # gem 'sord', '~> 6.0'
