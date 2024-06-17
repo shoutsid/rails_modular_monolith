@@ -224,7 +224,7 @@ GEM
       karafka-core (>= 2.4.0, < 2.5.0)
       roda (~> 3.68, >= 3.69)
       tilt (~> 2.0)
-    langchainrb (0.13.3)
+    langchainrb (0.13.4)
       baran (~> 0.1.9)
       colorize (~> 1.1.0)
       json-schema (~> 4)
@@ -333,7 +333,7 @@ GEM
       slop (~> 3.0)
     psych (5.1.2)
       stringio
-    public_suffix (5.0.5)
+    public_suffix (5.1.0)
     puma (6.4.2)
       nio4r (~> 2.0)
     racc (1.8.0)
@@ -544,7 +544,7 @@ GEM
     yard-sorbet (0.8.1)
       sorbet-runtime (>= 0.5)
       yard (>= 0.9)
-    zeitwerk (2.6.15)
+    zeitwerk (2.6.16)
 
 PLATFORMS
   aarch64-linux
@@ -573,7 +573,7 @@ DEPENDENCIES
   karafka
   karafka-testing
   karafka-web
-  langchainrb (~> 0.13.3)
+  langchainrb (~> 0.13.4)
   langchainrb_rails (~> 0.1.10)
   letter_opener (~> 1.4, >= 1.4.1)
   listen (~> 3.3)
