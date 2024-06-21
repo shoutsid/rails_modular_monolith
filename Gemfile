@@ -56,7 +56,7 @@ group :development, :test do
   gem 'rubocop-rspec_rails', '~> 2.29'
 
   # Static Typing
-  gem 'tapioca', '~> 0.14.3', require: false
+  gem 'tapioca', '~> 0.14.4', require: false
 
   gem 'byebug', '~> 11.1.3'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
