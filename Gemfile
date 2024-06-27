@@ -109,4 +109,4 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Static Typing
 gem 'iconv', '~> 1.0'
-gem 'sorbet-runtime', '~> 0.5.11432'
+gem 'sorbet-runtime', '~> 0.5.11447'
