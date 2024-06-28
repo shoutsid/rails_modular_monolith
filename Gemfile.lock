@@ -495,7 +495,7 @@ GEM
       attr_extras (>= 6.2.4)
       diff-lcs
       patience_diff
-    tapioca (0.14.4)
+    tapioca (0.15.0)
       bundler (>= 2.2.25)
       netrc (>= 0.11.0)
       parallel (>= 1.21.0)
@@ -552,7 +552,7 @@ PLATFORMS
   aarch64-linux-musl
   arm64-darwin
   universal-darwin
-  x86_64-darwin
+  x86_64-linux
   x86_64-linux-gnu
   x86_64-linux-musl
 
@@ -601,7 +601,7 @@ DEPENDENCIES
   sorbet-runtime (~> 0.5.11432)
   sprockets-rails (~> 3.5.0)
   super_diff (~> 0.12.1)
-  tapioca (~> 0.14.4)
+  tapioca (~> 0.15.0)
   tiktoken_ruby
   tzinfo-data
   waterdrop
