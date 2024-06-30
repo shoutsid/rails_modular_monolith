@@ -52,7 +52,7 @@ group :development, :test do
   gem 'rubocop-factory_bot', '~> 2.26'
   gem 'rubocop-rails', '~> 2.25'
   gem 'rubocop-rake', '~> 0.6.0'
-  gem 'rubocop-rspec', '~> 2.30'
+  gem 'rubocop-rspec', '~> 3.0'
   gem 'rubocop-rspec_rails', '~> 2.29'
 
   # Static Typing
