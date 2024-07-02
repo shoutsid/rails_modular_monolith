@@ -75,8 +75,8 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
-    addressable (2.8.6)
-      public_suffix (>= 2.0.2, < 6.0)
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
@@ -224,7 +224,7 @@ GEM
       karafka-core (>= 2.4.0, < 2.5.0)
       roda (~> 3.68, >= 3.69)
       tilt (~> 2.0)
-    langchainrb (0.13.4)
+    langchainrb (0.13.5)
       baran (~> 0.1.9)
       colorize (~> 1.1.0)
       json-schema (~> 4)
@@ -333,7 +333,7 @@ GEM
       slop (~> 3.0)
     psych (5.1.2)
       stringio
-    public_suffix (5.1.0)
+    public_suffix (6.0.0)
     puma (6.4.2)
       nio4r (~> 2.0)
     racc (1.8.0)
@@ -522,7 +522,7 @@ GEM
       ethon (>= 0.9.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    unicode (0.4.4.4)
+    unicode (0.4.4.5)
     unicode-display_width (2.5.0)
     uri (0.13.0)
     warden (1.2.9)
@@ -573,7 +573,7 @@ DEPENDENCIES
   karafka
   karafka-testing
   karafka-web
-  langchainrb (~> 0.13.4)
+  langchainrb (~> 0.13.5)
   langchainrb_rails (~> 0.1.10)
   letter_opener (~> 1.4, >= 1.4.1)
   listen (~> 3.3)
