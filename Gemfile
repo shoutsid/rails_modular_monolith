@@ -36,7 +36,7 @@ gem 'karafka-web'
 gem 'waterdrop'
 
 # AI focused gems
-gem 'faraday', '~> 2.9'
+gem 'faraday', '~> 2.11'
 gem 'langchainrb', '~> 0.13.5'
 gem 'langchainrb_rails', '~> 0.1.10'
 gem 'neighbor'
