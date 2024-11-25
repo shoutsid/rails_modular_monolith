@@ -10,7 +10,7 @@ gem 'rails', '~> 7.1.3'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 # Use Puma as the app server
-gem 'puma', '~> 6.4'
+gem 'puma', '~> 6.5'
 # Compile and serve assets
 gem 'sprockets-rails', '~> 3.5.0'
 # Use Bootstrapp for stylesheets
