@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~> 3.2.0'
 
 # Bundle edge Rails instead: gem 'rails', git: 'https://github.com/rails/rails.git', branch: 'main'
-gem 'rails', '7.2.0'
+gem 'rails', '8.0.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.5.0'
 # Use Puma as the app server
@@ -71,7 +71,6 @@ group :development, :test do
 end
 
 group :test do
-  gem 'annotate', '~> 3.2.0'
   gem 'karafka-testing'
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
   gem 'rspec-rails', '~> 6.1'

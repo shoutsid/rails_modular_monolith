@@ -3,8 +3,11 @@
 # NOTE: only doing this in development as some production environments (Heroku)
 # NOTE: are sensitive to local FS writes, and besides -- it's just not proper
 # NOTE: to have a dev-mode tool do its thing in production.
-if Rails.env.development?
-  require 'annotate'
+# annotate is not installed: every release caps ActiveRecord below 8.0 (3.2.0)
+# or rake below 11 (2.6.7), and this tree runs Rails 8.0 with rake 13. The
+# annotation task is a development convenience, so it is absent rather than
+# pinned to a combination that cannot resolve.
+if false
   desc 'Set annotation Options'
   task set_annotation_options: :environment do
     # You can override any of these by setting an environment variable of the
