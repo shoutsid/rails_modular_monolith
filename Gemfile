@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~> 3.2.0'
 
 # Bundle edge Rails instead: gem 'rails', git: 'https://github.com/rails/rails.git', branch: 'main'
-gem 'rails', '7.1.6'
+gem 'rails', '7.2.4'
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.5.0"
 # Use Puma as the app server
@@ -25,7 +25,7 @@ gem 'jsbundling-rails', '~> 1.3.0'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.4.4', require: false
+gem "bootsnap", "~> 1.26"
 
 # Authentication
 gem "devise", "~> 4.0"
@@ -73,7 +73,7 @@ end
 group :test do
   gem 'karafka-testing'
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
-  gem 'rspec-rails', '~> 6.1'
+  gem "rspec-rails", "~> 6.1"
   gem 'shoulda-matchers', '~> 6.2'
   gem 'super_diff', '~> 0.12.1'
 end
@@ -115,3 +115,4 @@ gem "zeitwerk", "~> 2.6.0"
 gem "jquery-ui-rails", "~> 6.0"
 gem "rake", ">= 12.2"
 gem "logger", "~> 1.4"
+gem "connection_pool", "~> 2.5"
