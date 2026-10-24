@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '~> 3.2.0'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
+# Bundle edge Rails instead: gem 'rails', git: 'https://github.com/rails/rails.git', branch: 'main'
 gem 'rails', '~> 7.1.3'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
@@ -110,3 +110,4 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # Static Typing
 gem 'iconv', '~> 1.0'
 gem 'sorbet-runtime', '~> 0.5.11465'
+gem "sass", "~> 3.7"
