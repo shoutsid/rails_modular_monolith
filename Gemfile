@@ -5,10 +5,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '~> 3.2.0'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem 'rails', '~> 7.1.3'
+# Bundle edge Rails instead: gem 'rails', git: 'https://github.com/rails/rails.git', branch: 'main'
+gem 'rails', '7.1.6'
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 1.1'
+gem "pg", "~> 1.5.0"
 # Use Puma as the app server
 gem 'puma', '~> 6.4'
 # Compile and serve assets
@@ -28,7 +28,7 @@ gem 'jsbundling-rails', '~> 1.3.0'
 gem 'bootsnap', '>= 1.4.4', require: false
 
 # Authentication
-gem 'devise', '~> 4.8'
+gem "devise", "~> 4.0"
 
 # Job processing
 gem 'karafka'
@@ -73,7 +73,7 @@ end
 group :test do
   gem 'karafka-testing'
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
-  gem 'rspec-rails', '~> 6.1'
+  gem "rspec-rails", "~> 6.1"
   gem 'shoulda-matchers', '~> 6.2'
   gem 'super_diff', '~> 0.12.1'
 end
@@ -110,3 +110,8 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # Static Typing
 gem 'iconv', '~> 1.0'
 gem 'sorbet-runtime', '~> 0.5.11465'
+gem "sass", "~> 3.7"
+gem "zeitwerk", "~> 2.6.0"
+gem "jquery-ui-rails", "~> 6.0"
+gem "rake", ">= 12.2"
+gem "logger", "~> 1.4"
