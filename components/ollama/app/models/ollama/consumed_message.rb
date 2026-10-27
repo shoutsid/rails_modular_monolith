@@ -19,7 +19,7 @@
 module Ollama
   # consumed messages
   class ConsumedMessage < ApplicationRecord
-    enum status: {
+    enum :status, {
       processing: 0,
       succeeded: 1,
       failed: 2
