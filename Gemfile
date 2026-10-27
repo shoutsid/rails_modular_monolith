@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~> 3.2.0'
 
 # Bundle edge Rails instead: gem 'rails', git: 'https://github.com/rails/rails.git', branch: 'main'
-gem 'rails', '7.2.4'
+gem 'rails', '8.0.5.1'
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.5.0"
 # Use Puma as the app server
@@ -80,7 +80,7 @@ end
 
 group :development do
   # Annotate models
-  gem 'annotate', '~> 3.2.0'
+  gem "annotaterb", "~> 4.25"
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 4.1.0'
   # Display performance information such as SQL time and flame graphs for each request in your browser.
